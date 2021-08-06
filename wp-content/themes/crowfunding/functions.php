@@ -73,6 +73,18 @@ endif;
  * @since v1.0
  */
 function crowfunding_widgets_init() {
+	// Area 3.
+	register_sidebar(
+		array(
+			'name'          => 'Home Page',
+			'id'            => 'home_page',
+			'before_widget' => '',
+			'after_widget'  => '',
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3>',
+		)
+	);
+	
 	// Area 1.
 	register_sidebar(
 		array(
@@ -108,6 +120,8 @@ function crowfunding_widgets_init() {
 			'after_title'   => '</h3>',
 		)
 	);
+
+	
 }
 add_action( 'widgets_init', 'crowfunding_widgets_init' );
 
@@ -122,6 +136,7 @@ if ( function_exists( 'register_nav_menus' ) ) {
 	register_nav_menus(
 		array(
 			'main-menu'   => 'Main Navigation Menu',
+			'mobile-menu' => 'Mobile Menu',
 			'footer-menu' => 'Footer Menu',
 		)
 	);
@@ -138,6 +153,21 @@ if ( is_readable( $custom_walker_footer ) ) {
 	require_once $custom_walker_footer;
 }
 
+$custom_post_types = get_template_directory() . '/inc/post_types.php';
+if ( is_readable( $custom_post_types ) ) {
+	require_once $custom_post_types;
+}
+
+$custom_theme_widgets = get_template_directory() . '/inc/theme_widgets.php';
+if ( is_readable( $custom_theme_widgets ) ) {
+	require_once $custom_theme_widgets;
+}
+
+$custom_theme_apis = get_template_directory() . '/inc/theme_apis.php';
+if ( is_readable( $custom_theme_apis ) ) {
+	require_once $custom_theme_apis;
+}
+
 
 /**
  * Loading All CSS Stylesheets and Javascript Files.
@@ -152,18 +182,19 @@ function crowfunding_scripts_loader() {
 		'animate' 	=> 'assets/css/animate.min.css',
 		'icomoon' 	=> 'assets/libs/icomoon/style.css',
 		'rangeSlider' 	=> 'assets/libs/ion-rangeSlider/css/ion.rangeSlider.min.css',
+		'flickity' 	=> 'assets/libs/flickity/flickity.min.css',
 		'main' 	=> 'assets/css/main.css',
 	];
 
 	$header_js = [
-		'jquery' => 'assets/js/jquery.min.3.5.1.js'
+		'jquery' => 'assets/js/jquery.min.3.5.1.js',
+		'flickity' => 'assets/libs/flickity/flickity.pkgd.min.js',
 	];
 
 
 	$footer_js = [
 		'bootstrap' => 'assets/libs/bootstrap/js/bootstrap.bundle.min.js',
 		'rangeSlider' => 'assets/libs/ion-rangeSlider/js/ion.rangeSlider.min.js',
-		'flickity' => 'assets/libs/flickity/flickity.pkgd.min.js',
 		'wow' => 'assets/js/wow.min.js',
 		'main' => 'assets/js/main.js',
 	];
@@ -179,7 +210,9 @@ function crowfunding_scripts_loader() {
 
 
 	// 2. Scripts.
-	wp_enqueue_script( 'vue', '//cdn.jsdelivr.net/npm/vue@2', array(), $theme_version, false );
+	wp_enqueue_script( 'axios', '//unpkg.com/axios/dist/axios.min.js', array(), $theme_version, false );
+	//wp_enqueue_script( 'vue', '//cdn.jsdelivr.net/npm/vue@2', array(), $theme_version, false );
+	wp_enqueue_script( 'vue', '//cdn.jsdelivr.net/npm/vue@2/dist/vue.js', array(), $theme_version, false );
 
 	foreach ($header_js as $key => $value) {
 		wp_enqueue_script( $key, get_template_directory_uri() .'/'. $value, array(), $theme_version, false );

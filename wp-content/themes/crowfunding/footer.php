@@ -26,30 +26,21 @@
     </div> <!-- end wrapper -->
 
     <!-- Modal -->
-    <?php get_template_part('template-parts/search-form');
+    <?php get_template_part('template-parts/search-form');?>
     
     <nav id="menu__mobile" class="nav__mobile">
         <div class="nav__mobile__content">
-            <ul class="nav__mobile--ul">
-                <li class="menu-item menu-item-has-children"><a href="">クラファンなび</a>
-                    <ul class="sub-menu">
-                        <li class="menu-item"><a href="">ファンドの詳細</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item"><a href="">ファンド検索/一覧</a></li>
-                <li class="menu-item menu-item-has-children"><a href="">ソーシャルレンディング</a>
-                    <ul class="sub-menu">
-                        <li class="menu-item"><a href="">ソーシャルレンディング企業の詳細</a></li>
-                        <li class="menu-item"><a href="">口コミレビュー一覧</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item"><a href="">投資に関するコラム</a></li>
-                <li class="menu-item"><a href="">ソーシャルレンディングニュース</a></li>
-                <li class="menu-item"><a href="">用語集</a></li>
-                <li class="menu-item"><a href="">運営者</a></li>
-                <li class="menu-item"><a href="">プライバシーポリシー</a></li>
-                <li class="menu-item"><a href="">お問い合わせ</a></li>
-            </ul>
+            <?php
+                wp_nav_menu(
+                    array(
+                        'theme_location' => 'mobile-menu',
+                        'container'      => '',
+                        'menu_class'     => 'nav__mobile--ul',
+                        'fallback_cb'    => 'WP_Bootstrap_Navwalker::fallback',
+                        'walker'         => new WP_Bootstrap_Navwalker(),
+                    )
+                );
+            ?>
         </div>
     </nav>
     <?php wp_footer(); ?>

@@ -39,11 +39,15 @@
         </header>
 
         <nav class="main__nav d-md-none">
-            <ul class="dn__menu">
-                <li class="menu-item "><a href="#">ファンド検索</a></li>
-                <li class="menu-item "><a href="#">ソーシャルレンディング業者一覧</a></li>
-                <li class="menu-item "><a href="#">クチコミ・レビュー</a></li>
-                <li class="menu-item "><a href="#">投資に関するコラム</a></li>
-                <li class="menu-item "><a href="#">ニュース</a></li>
-            </ul>
+            <?php
+                wp_nav_menu(
+                    array(
+                        'theme_location' => 'main-menu',
+                        'container'      => '',
+                        'menu_class'     => 'dn__menu',
+                        'fallback_cb'    => 'WP_Bootstrap_Navwalker::fallback',
+                        'walker'         => new WP_Bootstrap_Navwalker(),
+                    )
+                );
+            ?>
         </nav>
