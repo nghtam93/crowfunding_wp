@@ -6,9 +6,16 @@ class Fund_Route extends WP_REST_Controller  {
 
     public function __construct() {
         $this->namespace = 'crowfunding';
-        $this->rest_base_index = 'funds';
+        $this->rest_base_index  = 'funds';
+        $this->rest_base        = 'funds';
         $this->post_slug = 'fund';
         $this->home_url  = get_option('siteurl');
+        $this->meta_fields = [
+            'fund_values_guarantee',
+            'fund_values_operation_period',
+            'fund_values_planned_distribution_rate',
+            'fund_values_total_offer'
+        ];
     }
 
     /**
@@ -82,9 +89,17 @@ class Fund_Route extends WP_REST_Controller  {
         $AppDb->where ("post_status",'publish');
         $items = $AppDb->ObjectBuilder()->get ($wpdb->prefix."posts", null, $cols);
 
-        foreach ($items as $key => $item) {
+        foreach ($items as $item) {
             $item->post_link    = $this->home_url.'/'.$this->post_slug.'/'.$item->post_name;
             $item->post_image   = $this->home_url.'/images/product-1.png';
+
+            $AppDb->where ("post_id",$item->ID);
+            $AppDb->where ("meta_key",$this->meta_fields,"IN");
+            $metas = $AppDb->ObjectBuilder()->get ($wpdb->prefix."postmeta", null, ['meta_key','meta_value']);
+
+            foreach ($metas as $meta) {
+                $item->{$meta->meta_key} = $meta->meta_value;
+            }
         }
 
         return rest_ensure_response( $items );

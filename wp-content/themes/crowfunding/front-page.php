@@ -69,41 +69,7 @@
 
     
 
-    <section class="sc-lending" id="recommended-social-lending">
-        <div class="container">
-            <header class="sc__header text-center wow animate__animated animate__pulse">
-                <h2 class="sc__header__title">{{ mod_title }}</h2>
-                <p class="sc__header__sub">RECOMMEDED</p>
-            </header>
-            <div class="sc__content wow animate__animated animate__fadeInUp">
-                <div class="new__slider flickity" data-flickity='{ "autoPlay": true ,"cellAlign": "left", "contain": true, "wrapAround": true, "groupCells": true, "pageDots": false,"prevNextButtons": true }'>
-                    <div v-for="item in products" class="col-12 col-md-6 col-lg-4 el__col">
-                        <div class="new__item ef--zoomin">
-                            <a href="" class="el__thumb dnfix__thumb">
-                                <img src="images/company-1.png" alt="">
-                            </a>
-                            <div class="el__meta">
-                                <div class="el__company">株式会社フィンスター</div>
-                                <h3 class="el__title text__truncate"><a href="">{{ item.title }}</a></h3>
-
-                                <ul class="el__tag">
-                                    <li>1万円より</li>
-                                    <li>償還時配当</li>
-                                    <li>抽選式</li>
-                                </ul>
-                                <div class="el__sub text__truncate -n2">
-                                    サンプルテキストサンプルテキストサンプルテキストサンプルテキスト…
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-end">
-                    <a href="" class="sc__readmore--text">ソーシャルレンディング事業者一覧を見る<span class="icon-long-arrow-right"></span></a>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
     <section class="sc-lending">
         <div class="container">
