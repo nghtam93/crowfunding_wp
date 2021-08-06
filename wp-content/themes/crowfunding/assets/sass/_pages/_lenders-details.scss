@@ -28,7 +28,7 @@
         tr{
             td{
                 vertical-align: middle;
-                padding: 20px 30px 14px 40px;
+                padding: 20px 30px 14px 30px;
                 &:first-child{
                     background-color: #ECF9FA;
                     width: 18%;
@@ -102,6 +102,7 @@
     font-size: 14px;
     font-weight: 500;
     padding: 40px 40px 20px;
+    font-family: YuGo;
     .el{
         &__header{
             text-align: center;

@@ -502,13 +502,13 @@
           data: {
             products: [
                 {
-                    title : 'CROWD BUILDS（クラウドビルズ'
+                    title : 'CROWD BUILDS（クラウドビルズ)'
                 },
                 {
-                    title : 'CROWD BUILDS（クラウドビルズ）1'
+                    title : 'CROWD BUILDS（クラウドビルズ)'
                 },
                 {
-                    title : 'CROWD BUILDS（クラウドビルズ）2'
+                    title : 'CROWD BUILDS（クラウドビルズ)'
                 }
             ],
             mod_title: 'オススメソーシャルレンディング事業者'

@@ -17,18 +17,22 @@
                     <span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></span>
                 </a>
                 <div class="header__brand">
-                    <a href="index.html" class="header--logo">
+                    <a href="<?= home_url(); ?>" class="header--logo">
                         <img src="images/logo.png" alt="">
                     </a>
                 </div>
                 <nav class="main__nav ms-auto">
-                    <ul class="dn__menu d-none d-lg-block">
-                        <li class="menu-item "><a href="#">ファンド検索</a></li>
-                        <li class="menu-item "><a href="#">ソーシャルレンディング業者一覧</a></li>
-                        <li class="menu-item "><a href="#">クチコミ・レビュー</a></li>
-                        <li class="menu-item "><a href="#">投資に関するコラム</a></li>
-                        <li class="menu-item "><a href="#">ニュース</a></li>
-                    </ul>
+                    <?php
+                    wp_nav_menu(
+                        array(
+                            'theme_location' => 'main-menu',
+                            'container'      => '',
+                            'menu_class'     => 'dn__menu d-none d-lg-block',
+                            'fallback_cb'    => 'WP_Bootstrap_Navwalker::fallback',
+                            'walker'         => new WP_Bootstrap_Navwalker(),
+                        )
+                    );
+                    ?>
                 </nav>
                 <button class="header__search--btn btn" type="submit" data-bs-toggle="modal" data-bs-target="#modalSearch"><span class="icon-search"></span></button>
             </div>

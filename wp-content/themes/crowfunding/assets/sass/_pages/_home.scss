@@ -6,7 +6,7 @@
         &__header{
             margin-bottom: 50px;
             &__title{
-                font-size: 28px;
+                font-size: 30px;
                 line-height: 1.6;
                 margin-bottom: 15px;
                 font-family: 'Corporate Logo Bold';
@@ -95,11 +95,18 @@
             li{
                 label{
                     margin-bottom: 10px;
+                    &.-text-fix{
+                        letter-spacing: -3px;
+                    }
                 }
-                .el__star{
-                    font-size: 15px;
+                .star-rating{
+                    position: relative;
+                    top: 3px;
                     margin-right: 20px;
                     color: #F69D38;
+                    span{
+                        font-size: 10px;
+                    }
                 }
                 p{
                     top: 8px;
@@ -164,6 +171,7 @@
         &__sub{
             font-size: 14px;
             margin-bottom: 40px;
+            font-family: 'Meiryo';
         }
         &__list{
             margin-bottom: 0;
@@ -214,10 +222,29 @@
         .el__sub {
             margin-bottom: 22px;
         }
+        &.-lenders{
+            .el__list{
+                li{
+                    padding: 0 6px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 62px;
+                    .star-rating{
+                        margin: 0 auto 0;
+                    }
+                }
+                
+            }
+        }
     }
     @media ( max-width: 767px ) {
         padding-bottom: 40px;
         margin-bottom: 40px;
+        .el__list li {
+            padding: 0 20px;
+        }
         .el__title {
             margin-top: 0;
         }
@@ -234,10 +261,25 @@
             align-items: center;
             justify-content: center;
             li {
-                padding: 0 10px;
+                padding: 0 15px;
             }
         } 
     }
+    @media ( max-width: 410px ) {
+        .el__list{
+            li {
+                padding: 0 10px;
+            }
+        } 
+        &.-lenders{
+            .el__list{
+                li{
+                    padding: 0 2px;
+                }
+            }
+        }
+    }
+
 }
 
 
@@ -293,7 +335,7 @@
             font-size: 18px;
             font-weight: 700;
             line-height: 27px;
-            margin-bottom: 5px;
+            margin-bottom: 0;
             a{
                 color: #000;
             }
@@ -332,9 +374,7 @@
     }
     @media ( max-width: 1199px ) {
         .el__title {
-            min-height: 54px;
-            -webkit-line-clamp: 2;
-            margin-bottom: 5px;
+         
         }
         .el__tag li {
             padding: 1px 5px;
@@ -345,8 +385,7 @@
     }
     @media ( max-width: 767px ) {
         .el__title {
-            min-height: auto;
-            -webkit-line-clamp: 1;
+         
         }
     }
 }
@@ -549,6 +588,7 @@
             font-size: 20px;
             font-weight: 700;
             line-height: 30px;
+            color: #000;
         }
         &__icon{
             align-items: flex-end;

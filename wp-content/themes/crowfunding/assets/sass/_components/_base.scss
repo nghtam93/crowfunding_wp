@@ -7,6 +7,40 @@ $color_secondary: #FF6B1D;
 .color-secondary{
     color: $color_secondary;
 }
+
+@font-face {
+    font-family: 'Corporate Logo Bold';
+    src: url('../fonts/CorporateLogoBold/Corporate-Logo-Bold.woff2') format('woff2'),
+        url('../fonts/CorporateLogoBold/Corporate-Logo-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Meiryo';
+    src: url('../fonts/MeiryoW53/MeiryoW53-Regular.woff2') format('woff2'),
+        url('../fonts/MeiryoW53/MeiryoW53-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'HiraKakuProW3';
+    src: url('../fonts/HiraKakuProW3/HiraKakuPro-W3-AlphaNum.woff2') format('woff2'),
+        url('../fonts/HiraKakuProW3/HiraKakuPro-W3-AlphaNum.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'YuGo';
+    src: url('../fonts/YuGo-Medium/YuGo-Medium-AlphaNum.woff2') format('woff2'),
+        url('../fonts/YuGo-Medium/YuGo-Medium-AlphaNum.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
 @font-face {
     font-family: 'Lato';
     src: url('../fonts/Lato/Lato-Bold.woff2') format('woff2'),

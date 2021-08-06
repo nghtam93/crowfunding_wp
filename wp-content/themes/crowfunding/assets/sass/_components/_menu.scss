@@ -96,7 +96,7 @@
 .nav__mobile{
     display:block;
     position:fixed;
-    top:85px;
+    top:90px;
     height:100%;
     left:-390px;
     width:390px;
@@ -109,7 +109,7 @@
     pointer-events: none;
     &__content{
         overflow-y:auto;
-        height: 100%;
+        height: calc(100% - 90px);
     }
     &.active{
         left:0;opacity:1;
@@ -186,6 +186,9 @@
     }
     @media ( max-width: 991px ) {
         top: 60px;
+        &__content{
+            height: calc(100% - 60px);
+        }
     }
     @media ( max-width: 575px ) {
         width: 100%;

@@ -44,6 +44,7 @@
             &__value{
                 margin-left: auto;
                 text-align: right;
+                font-family: 'HiraKakuProW3';
                 &__sub{
                     font-size: 14px;
                     color: #707070;
@@ -75,16 +76,28 @@
                 &:first-child{
                     background-color: #ECF9FA;
                     width: 14%;
+                    min-width: 80px;
                 }
             }
         }
     }
+    @media ( max-width: 991px ) {
+        &__table{
+            font-size: 16px;
+            tr td {
+                padding: 24px 10px 20px;
+            }
+        }
+    }
+    @media ( max-width: 767px ) {
+        &__table {
+            font-size: 14px;
+        }
+    }
     @media ( max-width: 575px ) {
         &__table{
-            font-size: 14px;
             tr{
                 td{
-                    padding: 24px 10px 20px;
                     &:first-child{
                         background-color: #ECF9FA;
                         width: 25%;
@@ -98,6 +111,17 @@
     margin-bottom: 40px;
     .carousel{
         margin-bottom: 20px;
+        .carousel-cell{
+            width: 100%;
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .el__thumb{
+            padding-top: 70%;
+            img{
+                object-fit: contain;
+            }
+        }
         &-nav{
             --bs-gutter-x: 10px;
             margin-left: -5px;
@@ -124,6 +148,14 @@
     @media ( min-width: 768px ) {
         .carousel-main .flickity-button{
             display: none;
+        }
+    }
+    @media ( max-width: 575px ) {
+        .carousel-nav{
+            display: none;
+        }
+        .flickity-button-icon {
+            fill: #fff;
         }
     }
 }
