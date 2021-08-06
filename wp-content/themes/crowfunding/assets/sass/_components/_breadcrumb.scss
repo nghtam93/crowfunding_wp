@@ -1,0 +1,13 @@
+.dn__breadcrumb{
+    background: #F8F8F8;
+    margin-bottom: 80px;
+    padding: 12px 0;
+    font-size: 12px;
+    color: #7E7E7E;
+    a{
+        color: #7E7E7E;
+    }
+    @media ( max-width: 575px ) {
+        margin-bottom: 30px;
+    }
+}

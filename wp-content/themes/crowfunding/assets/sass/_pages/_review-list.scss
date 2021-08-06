@@ -1,0 +1,102 @@
+.sc-review-list{
+    .sc__content{
+        position: relative;
+        margin-bottom: 60px;
+    }
+    .el{
+        &__item{
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 40px;
+        }
+        &__thumb{
+            width: 100px;
+            padding-top: 100px;
+            flex: 0 0 auto;
+            margin-right: 35px;
+        }
+        &__meta {
+            position: relative;
+            padding: 25px 40px;
+            background-color: #ECF9FA;
+            &::before{
+                content: "";
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: -20px;
+                border-top: 12px solid transparent;
+                border-left: 10px solid transparent;
+                border-right: 14px solid #ecf9fa;
+                border-bottom: 12px solid transparent;
+            }
+            &__mb {
+                margin-bottom: 10px;
+                .el__thumb{
+                    margin-right: 10px;
+                }
+            }
+        }
+        &__title{
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 0;
+            margin-right: 50px;
+        }
+        &__sub{
+            font-size: 12px;
+            color: #B2B2B2;
+            margin-bottom: 10px;
+        }
+        &__date{
+            font-size: 14px;
+            font-weight: 400;
+            color: #B2B2B2;
+        }
+        &__comment{
+            line-height: 19px;
+        }
+    }
+    &__readmore{
+        margin-bottom: 80px;
+    }
+    @media ( max-width: 767px ) {
+        .el{
+            &__thumb{
+                width: 60px;
+                padding-top: 60px;
+                margin-right: 10px;
+            }
+        }
+    }
+    @media ( max-width: 575px ) {
+
+        margin-right: -.75rem;
+        margin-left: -.75rem;
+        .item__rating{
+            margin-bottom: 10px;
+        }
+        .el{
+            
+            &__meta{
+                border: 0;
+                padding: 1rem;
+                &::before{
+                    display: none;
+                }
+                &__mb{
+                    display: flex;
+                    align-items: center;
+                }
+            }
+            
+        }
+    
+        
+    }
+}
+

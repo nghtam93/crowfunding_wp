@@ -1,0 +1,117 @@
+@keyframes stuckMoveDown{
+    0%{transform:translateY(-100%)}
+    100%{transform:translateY(0)}
+}
+@keyframes stuckMoveUp{
+    0%{transform:translateY(100%)}
+    100%{transform:translateY(0)}
+}
+@keyframes stuckFadeIn{
+    0%{opacity:0}
+    100%{opacity:1}
+}
+.header{
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 25px 0;
+    background: #fff;
+    z-index: 99;
+    &.is-sticky{
+        position: fixed;
+        box-shadow: 0px 2px 5px #ccc;
+        animation: stuckMoveDown .6s;
+    }
+
+    &--logo{
+        img{
+            max-height: 40px;
+        }
+    }
+    &__search--btn{
+        border: 0;
+        font-size: 24px;
+        margin-left: 30px;
+        padding: 0;
+        line-height: 24px;
+        &:focus, &:active{
+            outline: 0;
+            box-shadow: none;
+        }
+        &:hover{
+            color: $color_primary;
+        }
+    }
+
+    @media ( max-width: 1199px ) {
+        &--logo img {
+            max-height: 36px;
+        }
+        &__search--btn {
+            margin-left: 10px;
+        }
+    }
+    @media ( max-width: 991px ) {
+        padding: 12px 0;
+        &__brand {
+            flex-grow: 1;
+            text-align: center;
+        }
+        &__search--btn {
+            margin-left: 0;
+        }
+    }
+}
+
+.modal{
+    &-search{
+        .search-form {
+            position: relative;
+        }
+        .modal-content{
+            background: transparent;
+            border: 0;
+        }
+        .search-field{
+            line-height: 36px;
+            background-clip: border-box;
+            padding-right: 110px;
+            border-radius: 0;
+        }
+        .search-submit{
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 9;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            margin: 0;
+            line-height: 36px;
+            background: $color_primary;
+            color: #fff;
+            padding: .375rem 2.75rem;
+            border: 1px solid $color_primary;
+            &:hover{
+                background-color: #32a4b3;
+            }
+        }
+        .modal-close {
+            border-radius: 50%;
+            color: #000;
+            background: #fff;
+            width: 50px;
+            height: 50px;
+            line-height: 56px;
+            text-align: center;
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            z-index: 10;
+        }
+    }
+
+}
+
+

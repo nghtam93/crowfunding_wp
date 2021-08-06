@@ -1,0 +1,30 @@
+.navigation{
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    list-style: none;
+    justify-content: center;
+    margin-top: 70px;
+    margin-bottom: 100px;
+    .page-numbers{
+        width: 33px;
+        height: 33px;
+        line-height: 33px;
+        border-radius: 50%;
+        color: $color_primary;
+        text-align: center;
+        font-size: 12px;
+        margin: 0 5px;
+        &.current{
+            background-color: $color_primary;
+            color: #fff;
+        }
+        &:hover{
+            background-color: $color_primary;
+            color: #fff;
+        }
+    }
+    @media ( max-width: 575px ) {
+        margin-top: 15px;
+    }
+}

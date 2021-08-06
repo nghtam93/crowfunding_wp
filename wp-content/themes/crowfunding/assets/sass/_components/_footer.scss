@@ -1,0 +1,106 @@
+body:not(.home) .sc-footer{
+    background-color: #000;
+    .sc-copyright{
+        color: #797979;
+    }
+}
+.sc-footer{
+    padding: 155px 0 40px;
+    background-color:$color_primary;
+    color: #fff;
+
+    .sc-copyright{
+        padding-top: 70px;
+        font-size: 12px;
+        font-family: 'Lato';
+        text-align: center;
+    }
+
+    @media ( max-width: 1199px ) {
+        padding: 100px 0 40px;
+    }
+    @media ( max-width: 991px ) {
+        padding: 60px 0 40px;
+    }
+    @media ( max-width: 767px ) {
+        padding: 40px 0 40px;
+    }
+    @media ( max-width: 575px ) {
+        hr{
+            background-color: #ccc;
+            opacity: 1;
+            margin: 0;
+        }
+        .sc-copyright {
+            font-size: 14px;
+            padding-top: 10px;
+        }
+    }
+    
+}
+.box-social{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+    a{
+        display: block;
+        color: #fff;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid #fff;
+        text-align: center;
+        line-height: 44px;
+        margin: 0 10px;
+        &:hover{
+            background-color: $color_secondary;
+            border-color: $color_secondary;
+        }
+    }
+}
+
+
+/*menu footer*/
+.footer__nav{
+    margin-top: 40px;
+    margin-bottom: 40px;
+    ul{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        line-height: normal;
+    }
+    li{
+        position:relative;
+        padding: 0 20px;
+        &:not(:last-child)::after{
+            content: "";
+            width: 1px;
+            height: 100%;
+            background-color: #fff;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+    a{
+        color: #fff;
+        &:hover{
+            color: $color_secondary;
+        }
+    }
+    @media ( max-width: 575px ) {
+    
+        margin-top: 0;
+
+        li {
+            width: 100%;
+            padding: 20px 20px;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+            &::after{
+                display: none;
+            }
+        }
+    }
+}
