@@ -384,26 +384,5 @@
         </div>
     </section>
 
-    <script type="text/javascript">
-        var recommended_social_lending_app = new Vue({
-              el: '#recommended-social-lending',
-              data: {
-                products: [
-                    {
-                        title : 'CROWD BUILDS（クラウドビルズ)'
-                    },
-                    {
-                        title : 'CROWD BUILDS（クラウドビルズ)'
-                    },
-                    {
-                        title : 'CROWD BUILDS（クラウドビルズ)'
-                    }
-                ],
-                mod_title: 'オススメソーシャルレンディング事業者'
-              }
-            });
-    </script>
-    
-
 <?php get_footer(); ?>
         

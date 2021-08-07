@@ -28,15 +28,16 @@ class App_Lendings_Widget extends WP_Widget {
 	                <p class="sc__header__sub">{{ mod_sub_title }}</p>
 	            </header>
 	            <div class="sc__content wow animate__animated animate__fadeInUp">
-	                <div class="new__slider flickity" data-flickity='{ "autoPlay": true ,"cellAlign": "left", "contain": true, "wrapAround": true, "groupCells": true, "pageDots": false,"prevNextButtons": true }'>
+	                <div class="row new__slider flickity" data-flickity='{ "autoPlay": true ,"cellAlign": "left", "contain": true, "wrapAround": true, "groupCells": true, "pageDots": false,"prevNextButtons": true }'>
+
 	                    <div v-for="item in products" class="col-12 col-md-6 col-lg-4 el__col">
 	                        <div class="new__item ef--zoomin">
-	                            <a href="" class="el__thumb dnfix__thumb">
-	                                <img src="images/company-1.png" alt="">
+	                            <a v-bind:href="item.post_link" class="el__thumb dnfix__thumb">
+	                                <img v-bind:src="item.post_image" alt="">
 	                            </a>
 	                            <div class="el__meta">
 	                                <div class="el__company">株式会社フィンスター</div>
-	                                <h3 class="el__title text__truncate"><a href="">{{ item.post_title }}</a></h3>
+	                                <h3 class="el__title text__truncate"><a v-bind:href="item.post_link">{{ item.post_title }}</a></h3>
 
 	                                <ul class="el__tag">
 	                                    <li>1万円より</li>
@@ -44,7 +45,7 @@ class App_Lendings_Widget extends WP_Widget {
 	                                    <li>抽選式</li>
 	                                </ul>
 	                                <div class="el__sub text__truncate -n2">
-	                                    サンプルテキストサンプルテキストサンプルテキストサンプルテキスト…
+	                                      {{ item.post_excerpt }}...
 	                                </div>
 	                            </div>
 	                        </div>

@@ -91,7 +91,7 @@ class Lending_Route extends WP_REST_Controller  {
 
         foreach ($items as $item) {
             $item->post_link    = $this->home_url.'/'.$this->post_slug.'/'.$item->post_name;
-            $item->post_image   = $this->home_url.'/images/product-1.png';
+            $item->post_image   = $this->home_url.'/images/company-1.png';
 
             $AppDb->where ("post_id",$item->ID);
             $AppDb->where ("meta_key",$this->meta_fields,"IN");

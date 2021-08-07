@@ -1,4 +1,31 @@
-<footer class="sc-footer">
+        <section class="sc-3box">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 d-flex wow animate__animated animate__fadeInLeft">
+                        <div class="el__item"></div>
+                    </div>
+                    <div class="col-md-4 d-flex wow animate__animated animate__fadeInUp">
+                        <div class="el__item"></div>
+                    </div>
+                    <div class="col-md-4 wow animate__animated animate__fadeInRight">
+                        <div class="el__item -text">
+                            <h3 class="el__title">クラファンなび</h3>
+                            <div class="d-flex">
+                                <div class="el__excerpt flex-grow-1">
+                                    取材のご依頼や、<br>広告掲載に関する<br>お問い合わせはこちら
+                                </div>
+                                <div class="el__icon">
+                                    <span class="icon-long-arrow-right"></span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <footer class="sc-footer">
             <div class="container">
                 <ul class="box-social">
                     <li><a href=""><span class="icon-twitter"></span></a></li>

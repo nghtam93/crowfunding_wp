@@ -3,7 +3,6 @@
  * The template for displaying the archive loop.
  */
 
-crowfunding_content_nav( 'nav-above' );
 
 if ( have_posts() ) :
 ?>
@@ -26,4 +25,3 @@ endif;
 
 wp_reset_postdata();
 
-crowfunding_content_nav( 'nav-below' );
