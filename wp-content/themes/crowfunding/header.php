@@ -1,3 +1,4 @@
+<?php $images_url = get_template_directory_uri().'/images';?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -18,7 +19,7 @@
                 </a>
                 <div class="header__brand">
                     <a href="<?= home_url(); ?>" class="header--logo">
-                        <img src="images/logo.png" alt="">
+                        <img src="<?= $images_url; ?>/logo.png" alt="">
                     </a>
                 </div>
                 <nav class="main__nav ms-auto">

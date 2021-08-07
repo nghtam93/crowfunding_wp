@@ -29,13 +29,13 @@ class Lending_Route extends WP_REST_Controller  {
                 [
                     'methods'             => \WP_REST_Server::READABLE,
                     'callback'            => [ $this, 'index' ],
-                    //'permission_callback' => [ $this, 'get_items_permission_check' ],
+                    'permission_callback' => [ $this, 'get_items_permission_check' ],
                     //'args'                => $this->get_collection_params()
                 ],
                 [
                     'methods'             => \WP_REST_Server::CREATABLE,
                     'callback'            => [ $this, 'store' ],
-                    'permission_callback' => [ $this, 'create_items_permission_check' ],
+                    'permission_callback' => [ $this, 'create_item_permission_check' ],
                     'args'                => $this->get_endpoint_args_for_item_schema(true )
                 ]
             ]
@@ -105,20 +105,7 @@ class Lending_Route extends WP_REST_Controller  {
         return rest_ensure_response( $items );
     }
 
-    /**
-     * Get items permission check
-     */
-    public function get_items_permission_check( $request ) {
-        // if( current_user_can( 'administrator' ) ) {
-        //     return true;
-        // }
 
-        return true;
-    }
-
-    /**
-     * Create item response
-     */
     public function store( $request ) {
 
         // Data validation
@@ -141,10 +128,27 @@ class Lending_Route extends WP_REST_Controller  {
         
     }
 
-    /**
-     * Create item permission check
-     */
-    public function create_items_permission_check( $request ) {
+    /* photos */
+    public function get_items_permission_check( $request ) {
+        // if( current_user_can( 'administrator' ) ) {
+        //     return true;
+        // }
+        return true;
+    }
+    /* photos/:id */
+    public function get_item_permissions_check( $request ) {
+        return true;
+    }
+    /* photos:store */
+    public function create_item_permission_check( $request ) {
+        return true;
+    }
+    /* photos:update */
+    public function update_item_permissions_check( $request ) {
+        return true;
+    }
+    /* photos:destroy */
+    public function delete_item_permissions_check( $request ) {
         return true;
     }
 

@@ -1,3 +1,10 @@
+<?php
+/**
+ * Template Name: Page (Contact)
+ * Description: Page template full width.
+ *
+ */
+?>
 <?php get_header();
 $siteurl = get_option('siteurl');
 ?>
@@ -8,9 +15,8 @@ $siteurl = get_option('siteurl');
     </div>
 </div>
 <div class="wrap__page">   
-    <div class="container">
-     
-        <div class="archive__content wow animate__animated animate__fadeInUp">
+    <div class="">
+        <div class="inquiry__box mx-auto">
         	<?php the_content();?>
         </div>
     </div>

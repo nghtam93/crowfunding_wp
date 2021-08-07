@@ -30,46 +30,41 @@ class App_Funds_Widget extends WP_Widget {
 	            <div class="sc__content wow animate__animated animate__fadeInUp">
 
 	                <div v-if="products"
-	                	v-for="item in products" class="product__item ef--zoomin">
+	                	v-for="product in products" class="product__item ef--zoomin">
 	                    <div class="row">
 	                        <div class="col-md-5 col-lg-34 wow animate__animated animate__fadeInLeft">
-	                            <a v-bind:href="item.post_link" class="el__thumb dnfix__thumb">
+	                            <a v-bind:href="product.post_link" class="el__thumb dnfix__thumb">
 	                                <div class="el__status">募集中</div>
-	                                <img v-bind:src="item.post_image" alt="">
+	                                <img v-bind:src="product.post_image" alt="">
 	                            </a>
 	                        </div>
 	                        <div class="col-md-7 col-lg-66 wow animate__animated animate__fadeInRight">
-	                            <h3 class="el__title text-truncate"><a v-bind:href="item.post_link">{{ item.post_title }}</a></h3>
+	                            <h3 class="el__title text-truncate"><a v-bind:href="product.post_link">{{ product.post_title }}</a></h3>
 	                            <div class="d-flex">
 	                                <span class="me-3">クラウドビルズ</span>
-	                                <span>(25件のクチコミ）</span>
+	                                <span>({{ product.comment_count }}件のクチコミ）</span>
 	                            </div>
-	                            <ul class="el__tag">
-	                                <li>1万円より</li>
-	                                <li>償還時配当</li>
-	                                <li>抽選式</li>
-	                                <li>抽選式</li>
-	                            </ul>
+	                            <ul class="el__tag" v-html="product.features_html"></ul>
 	                            <div class="el__sub text__truncate">
-	                                {{ item.post_excerpt }}...
+	                                {{ product.post_excerpt }}...
 	                            </div>
 	                            <ul class="el__list">
 	                                <li>
-	                                    <label>募集総額</label>
-	                                    <p>2,500<span>万円</span></p>
-	                                </li>
-	                                <li>
-	                                    <label>予定分配率</label>
-	                                    <p>2,8.0<span>%</span></p>
-	                                </li>
-	                                <li>
-	                                    <label>運用期間</label>
-	                                    <p>3<span>ヶ月</span></p>
-	                                </li>
-	                                <li>
-	                                    <label>保証</label>
-	                                    <p>有り</p>
-	                                </li>
+		                                <label>募集総額</label>
+		                                <p>{{ product.fund_values_total_offer }}<span>万円</span></p>
+		                            </li>
+		                            <li>
+		                                <label>予定分配率</label>
+		                                <p>{{ product.fund_values_planned_distribution_rate }}<span>%</span></p>
+		                            </li>
+		                            <li>
+		                                <label>運用期間</label>
+		                                <p>{{ product.fund_values_operation_period }}<span>ヶ月</span></p>
+		                            </li>
+		                            <li>
+		                                <label>保証</label>
+		                                <p>有り</p>
+		                            </li>
 	                            </ul>
 	                        </div>
 	                    </div>

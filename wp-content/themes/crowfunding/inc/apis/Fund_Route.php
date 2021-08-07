@@ -6,8 +6,7 @@ class Fund_Route extends WP_REST_Controller  {
 
     public function __construct() {
         $this->namespace = 'crowfunding';
-        $this->rest_base_index  = 'funds';
-        $this->rest_base        = 'funds';
+        $this->rest_base = 'funds';
         $this->post_slug = 'fund';
         $this->home_url  = get_option('siteurl');
         $this->meta_fields = [
@@ -16,6 +15,26 @@ class Fund_Route extends WP_REST_Controller  {
             'fund_values_planned_distribution_rate',
             'fund_values_total_offer'
         ];
+        $this->single_meta_fields = array_merge($this->meta_fields,[
+            'fund_values_minimum_amount',
+            'fund_values_investment_amount',
+            'fund_values_dividend_date',
+            'fund_values_recruitment_period',
+            'gallery',
+            'recruitment_outline_total_offer',
+            'recruitment_outline_operation_type',
+            'recruitment_outline_recruitment_method',
+            'recruitment_outline_number_of_lenders',
+            'recruitment_outline_expected_yield',
+            'recruitment_outline_scheduled_redemption_date',
+            'recruitment_outline_recruitment_start_date',
+            'recruitment_outline_investment_execution_date',
+            'recruitment_outline_redemption_method_principal',
+            'recruitment_outline_redemption_method_profit_dividend',
+            'recruitment_outline_redemption_method_early_redemption',
+            'recruitment_outline_redemption_method',
+            'recruitment_outline_collateral'
+        ]);
     }
 
     /**
@@ -24,18 +43,18 @@ class Fund_Route extends WP_REST_Controller  {
     public function register_routes() {
         register_rest_route(
             $this->namespace,
-            '/' . $this->rest_base_index,
+            '/' . $this->rest_base,
             [
                 [
                     'methods'             => \WP_REST_Server::READABLE,
                     'callback'            => [ $this, 'index' ],
-                    //'permission_callback' => [ $this, 'get_items_permission_check' ],
-                    //'args'                => $this->get_collection_params()
+                    'permission_callback' => [ $this, 'get_items_permission_check' ],
+                    'args'                => $this->get_collection_params()
                 ],
                 [
                     'methods'             => \WP_REST_Server::CREATABLE,
                     'callback'            => [ $this, 'store' ],
-                    'permission_callback' => [ $this, 'create_items_permission_check' ],
+                    'permission_callback' => [ $this, 'create_item_permission_check' ],
                     'args'                => $this->get_endpoint_args_for_item_schema(true )
                 ]
             ]
@@ -83,7 +102,7 @@ class Fund_Route extends WP_REST_Controller  {
 
         global $AppDb,$wpdb;
 
-        $cols = ['ID','post_title','post_name','post_excerpt'];
+        $cols = ['ID','post_title','post_name','post_excerpt','comment_count'];
 
         $AppDb->where ("post_type",'fund');
         $AppDb->where ("post_status",'publish');
@@ -92,67 +111,89 @@ class Fund_Route extends WP_REST_Controller  {
         foreach ($items as $item) {
             $item->post_link    = $this->home_url.'/'.$this->post_slug.'/'.$item->post_name;
             $item->post_image   = $this->home_url.'/images/product-1.png';
+            $features     = get_the_terms($item->ID,'fund_features');
+            $item->features_html= '';
+            foreach ($features as $feature) {
+               //$item->features_html .= '<li><a href="">'.$feature->name.'</a></li>';
+               $item->features_html .= '<li>'.$feature->name.'</li>';
+            }
 
             $AppDb->where ("post_id",$item->ID);
             $AppDb->where ("meta_key",$this->meta_fields,"IN");
             $metas = $AppDb->ObjectBuilder()->get ($wpdb->prefix."postmeta", null, ['meta_key','meta_value']);
 
             foreach ($metas as $meta) {
+                if( $meta->meta_key == 'fund_values_total_offer' ){
+                    $meta->meta_value = number_format($meta->meta_value);
+                }
                 $item->{$meta->meta_key} = $meta->meta_value;
             }
         }
 
         return rest_ensure_response( $items );
     }
-
     /**
-     * Get items permission check
+     * Create item response
      */
+    public function show( $request ) {
+
+        global $AppDb,$wpdb;
+        $item_id = $request['id'];
+
+        $cols = ['ID','post_title','post_name','post_content','comment_count'];
+
+        $AppDb->where ("ID",$item_id);
+        $AppDb->where ("post_type",'fund');
+        $AppDb->where ("post_status",'publish');
+        $item = $AppDb->ObjectBuilder()->getOne ($wpdb->prefix."posts",$cols);
+
+        $item->post_link    = $this->home_url.'/'.$this->post_slug.'/'.$item->post_name;
+        $item->post_image   = $this->home_url.'/images/product-1.png';
+        $features     = get_the_terms($item_id,'fund_features');
+        $item->features_html= '';
+        foreach ($features as $feature) {
+           //$item->features_html .= '<li><a href="">'.$feature->name.'</a></li>';
+           $item->features_html .= '<li>'.$feature->name.'</li>';
+        }
+
+        $AppDb->where ("post_id",$item->ID);
+        $AppDb->where ("meta_key",$this->single_meta_fields,"IN");
+        $metas = $AppDb->ObjectBuilder()->get ($wpdb->prefix."postmeta", null, ['meta_key','meta_value']);
+
+        foreach ($metas as $meta) {
+            if( $meta->meta_key == 'gallery' ){
+                $meta->meta_value = unserialize($meta->meta_value);
+                $meta->meta_value = get_field('gallery',$item_id);
+            }
+            if( $meta->meta_key == 'fund_values_total_offer' ){
+                $meta->meta_value = number_format($meta->meta_value);
+            }
+            $item->{$meta->meta_key} = $meta->meta_value;
+        }
+
+        return rest_ensure_response( $item );
+    }
+    public function store( $request ) {}
+
+    /* photos */
     public function get_items_permission_check( $request ) {
         // if( current_user_can( 'administrator' ) ) {
         //     return true;
         // }
-
         return true;
     }
-
-    /**
-     * Create item response
-     */
-    public function store( $request ) {
-
-        // Data validation
-        $firstname = isset( $request['firstname'] ) ? sanitize_text_field( $request['firstname'] ): '';
-        $lastname  = isset( $request['lastname'] ) ? sanitize_text_field( $request['lastname'] )  : '';
-        $email     = isset( $request['email'] ) && is_email( $request['email'] ) ? sanitize_email( $request['email'] ) : '';
-
-        // Save option data into WordPress
-        update_option( 'wpvk_settings_firstname', $firstname );
-        update_option( 'wpvk_settings_lastname', $lastname );
-        update_option( 'wpvk_settings_email', $email );
-
-        $response = [
-            'firstname' => $firstname,
-            'lastname'  => $lastname,
-            'email'     => $email
-        ];
-
-        return rest_ensure_response( $response );
-        
-    }
-
-    /**
-     * Create item permission check
-     */
-    public function create_items_permission_check( $request ) {
-        return true;
-    }
+    /* photos/:id */
+    public function get_item_permissions_check( $request ) { return true;  }
+    /* photos:store */
+    public function create_item_permission_check( $request ) { return true;  }
+    /* photos:update */
+    public function update_item_permissions_check( $request ) { return true; }
+    /* photos:destroy */
+    public function delete_item_permissions_check( $request ) { return true;  }
 
     /**
      * Retrives the query parameters for the items collection
      */
-    public function get_collection_params() {
-        return [];
-    }
+    public function get_collection_params() { return []; }
 
 }

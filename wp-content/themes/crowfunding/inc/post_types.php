@@ -19,11 +19,43 @@ function post_type_crowfunding_init() {
         'hierarchical'       => false,
         'menu_position'      => 20,
         'supports'           => array( 'title', 'editor', 'excerpt', 'thumbnail' ),
-        'taxonomies'         => array( 'category' ),
+        'taxonomies'         => array( 'fund_categories','fund_features' ),
         'show_in_rest'       => true
     );
       
     register_post_type( 'Fund', $args );
+
+    /*
+    register_taxonomy(
+        'fund_categories',
+        'fund',
+        array(
+            'hierarchical' => true,
+            'label' => 'Fund categories',
+            'show_admin_column' => true,
+            'query_var' => true,
+            'rewrite' => array(
+                'slug' => 'fund-categories',
+                'with_front' => false
+            )
+        )
+    );
+    */
+
+    register_taxonomy(
+        'fund_features',
+        'fund',
+        array(
+            'hierarchical' => true,
+            'label' => 'Fund features',
+            'show_admin_column' => true,
+            'query_var' => true,
+            'rewrite' => array(
+                'slug' => 'fund-features',
+                'with_front' => false
+            )
+        )
+    );
 
     $labels = array(
         'name'                  => _x( 'Lendings', 'Post type general name', 'crowLendinging' ),
