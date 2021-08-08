@@ -104,7 +104,10 @@ class Review_Route extends WP_REST_Controller  {
             }
         }
 
-        return rest_ensure_response( $items );
+        $return['items']        = $items;
+        $return['totalPages']   = $totalPages;
+
+        return rest_ensure_response( $return );
     }
     /**
      * Create item response

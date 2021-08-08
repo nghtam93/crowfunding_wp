@@ -41,14 +41,6 @@ jQuery(function($) {
         //-------------------------------------------------
         // Menu
         //-------------------------------------------------
-        var header_sticky = $('.header--sticky')
-        if(header_sticky.offset().top > 1){
-            header_sticky.addClass("active")
-        }
-        $(window).scroll(function(){
-            $(this).scrollTop()>1?header_sticky.addClass("active"):header_sticky.removeClass("active")
-        })
-
         $('.menu-mb__btn').click(function(e){
             e.preventDefault()
             if($('.menu-mb__btn').hasClass('active')){

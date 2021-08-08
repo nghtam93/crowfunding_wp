@@ -113,7 +113,7 @@ class News_Route extends WP_REST_Controller  {
             $item->post_link    = $this->home_url.'/'.$this->post_slug.'/'.$item->post_name;
             $item->post_image   = $this->home_url.'/images/product-1.png';
             $item->post_date    = date('Y.m.d',strtotime($item->post_date));
-            $item->cat_name     = ( $cat_id ) ? get_cat_name($cat_id) : '';
+            $item->cat_name     = ( $cat_id ) ? get_cat_name($cat_id) : get_the_terms( $item->ID, 'category' )[0]->name;
             
             $tags         = get_the_terms($item->ID,'post_tag');
             $item->tags_html= '';

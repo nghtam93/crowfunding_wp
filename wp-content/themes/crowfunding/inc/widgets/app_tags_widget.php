@@ -20,6 +20,7 @@ class App_Tags_Widget extends WP_Widget {
 		$html 	= $args['before_widget'];
 		//$html .= $args['before_title'] . $title . $args['after_title'];
 		ob_start();
+		$tags = get_terms( array('taxonomy' => 'post_tag', 'hide_empty' => false) );
 		?>
 	    <section class="sc-tag" id="<?= $args['widget_id']; ?>">
         <div class="container">
@@ -27,25 +28,17 @@ class App_Tags_Widget extends WP_Widget {
                 <h2 class="sc-tag__header__title">{{ mod_title }}</h2>
             </header>
             <ul class="sc-tag__list wow animate__animated animate__fadeInUp">
-                <li><a href="">不動産投資</a></li>
-                <li><a href="">ソーシャルレンディング</a></li>
-                <li><a href="">クラウドファンディング</a></li>
-                <li><a href="">利回り</a></li>
-                <li><a href="">S T O</a></li>
-                <li><a href="">マネタイズ</a></li>
-                <li><a href="">投資利回り</a></li>
-                <li><a href="">クラウドファンディング</a></li>
-                <li><a href="">利回り</a></li>
-                <li><a href="">S T O</a></li>
-                <li><a href="">マネタイズ</a></li>
+            	<?php foreach( $tags as $tag ):?>
+                <li><a href="<?= get_term_link($tag);?>"><?= $tag->name;?></a></li>
+            	<?php endforeach;?>
             </ul>
             <div class="text-end">
-                <a v-bind:href="item.item_more_link" class="sc__readmore--text">全てのタグを見る<span class="icon-long-arrow-right"></span></a>
+                <a v-bind:href="mod_more_url" class="sc__readmore--text">全てのタグを見る<span class="icon-long-arrow-right"></span></a>
             </div>
         </div>
     </section>
 	    <script type="text/javascript">
-	        var social_reviews_app = new Vue({
+	        var social_tags_app = new Vue({
 	          el: '#<?= $args['widget_id']; ?>',
 	          data: {
 	            items: null,
@@ -58,7 +51,7 @@ class App_Tags_Widget extends WP_Widget {
 	          mounted () {
 			    // axios
 			    //   .get(this.mod_api_url + '?limit='+this.mod_limit)
-			    //   .then( response => (this.items = response.data) )
+			    //   .then( response => (this.items = response.data.items) )
 			  }
 	        });
 	        

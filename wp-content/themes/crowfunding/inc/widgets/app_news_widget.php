@@ -32,7 +32,7 @@ class App_News_Widget extends WP_Widget {
                     <div v-for="item in items" class="col-12 col-md-6 col-lg-4 el__col">
                         <div class="new__item ef--zoomin">
                             <a v-bind:href="item.post_link" class="el__thumb dnfix__thumb -small">
-                                <div class="el__status">コラム</div>
+                                <div class="el__status">{{ item.cat_name }}</div>
                                 <img v-bind:src="item.post_image" alt="">
                             </a>
                             <div class="el__meta">
@@ -50,13 +50,14 @@ class App_News_Widget extends WP_Widget {
                 </div>
 
                 <div class="text-end">
-                    <a href="#" class="sc__readmore--text">記事一覧を見る<span class="icon-long-arrow-right"></span></a>
+                    <a v-bind:href="more_url" class="sc__readmore--text">記事一覧を見る<span class="icon-long-arrow-right"></span></a>
                 </div>
               
             </div>
         </div>
 	    </section>
 	    <script type="text/javascript">
+	    	var cat_id = '<?= $instance['category_id']; ?>';
 	        var social_news_app = new Vue({
 	          el: '#<?= $args['widget_id']; ?>',
 	          data: {
@@ -64,11 +65,12 @@ class App_News_Widget extends WP_Widget {
 	            mod_title: '<?= $instance['title']; ?>',
 	            mod_sub_title: '<?= $instance['sub_title']; ?>',
 	            mod_limit: '<?= $instance['limit']; ?>',
+	            more_url: '<?= $instance['more_url']; ?>',
 	            mod_api_url: '<?= $this->home_url; ?>/wp-json/crowfunding/news'
 	          },
 	          mounted () {
 			    axios
-			      .get(this.mod_api_url + '?limit='+this.mod_limit)
+			      .get(this.mod_api_url + '?limit='+this.mod_limit+'&cat_id='+cat_id)
 			      .then( response => (this.items = response.data.items) )
 			      .then( function(response){
 			      	let obj = jQuery('#<?= $args['widget_id']; ?>').find('.flickity');

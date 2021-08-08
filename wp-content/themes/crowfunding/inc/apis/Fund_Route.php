@@ -13,7 +13,8 @@ class Fund_Route extends WP_REST_Controller  {
             'fund_values_guarantee',
             'fund_values_operation_period',
             'fund_values_planned_distribution_rate',
-            'fund_values_total_offer'
+            'fund_values_total_offer',
+            'company_business_name',
         ];
         $this->single_meta_fields = array_merge($this->meta_fields,[
             'fund_values_minimum_amount',
@@ -102,15 +103,30 @@ class Fund_Route extends WP_REST_Controller  {
 
         global $AppDb,$wpdb;
 
+        $pagination = ( isset($request['pagination']) ) ? $request['pagination'] : 0;
+        $cat_id     = ( isset($request['cat_id']) ) ? $request['cat_id'] : 0;
+        $page       = ( isset($request['page']) ) ? $request['page'] : 1;
+        $limit      = ( isset($request['limit']) ) ? $request['limit'] : 10;
+
+
         $cols = ['ID','post_title','post_name','post_excerpt','comment_count'];
 
         $AppDb->where ("post_type",'fund');
         $AppDb->where ("post_status",'publish');
-        $items = $AppDb->ObjectBuilder()->get ($wpdb->prefix."posts", null, $cols);
+        $totalPages = 1;
+
+        if( $pagination ){
+            $AppDb->pageLimit = $limit;
+            $items = $AppDb->ObjectBuilder()->paginate($wpdb->prefix."posts as p", $page);
+            $totalPages = $AppDb->totalPages;
+        }else{
+            $items = $AppDb->ObjectBuilder()->get ($wpdb->prefix."posts as p", $limit, $cols);
+        }
 
         foreach ($items as $item) {
             $item->post_link    = $this->home_url.'/'.$this->post_slug.'/'.$item->post_name;
             $item->post_image   = $this->home_url.'/images/product-1.png';
+            $item->post_image   = wp_get_attachment_url( get_post_thumbnail_id($item->ID) );
             $features     = get_the_terms($item->ID,'fund_features');
             $item->features_html= '';
             foreach ($features as $feature) {
@@ -126,11 +142,20 @@ class Fund_Route extends WP_REST_Controller  {
                 if( $meta->meta_key == 'fund_values_total_offer' ){
                     $meta->meta_value = number_format($meta->meta_value);
                 }
+                if( $meta->meta_key == 'fund_values_guarantee' ){
+                    $meta->meta_value = ($meta->meta_value) ? '有り' : '違う';
+                }
+                if( $meta->meta_key == 'company_business_name' ){
+                    $meta->meta_value = ($meta->meta_value) ? $meta->meta_value : 'クラウドビルズ';
+                }
                 $item->{$meta->meta_key} = $meta->meta_value;
             }
         }
 
-        return rest_ensure_response( $items );
+        $return['items']        = $items;
+        $return['totalPages']   = $totalPages;
+
+        return rest_ensure_response( $return );
     }
     /**
      * Create item response

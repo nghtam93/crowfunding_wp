@@ -19,28 +19,13 @@ function post_type_crowfunding_init() {
         'hierarchical'       => false,
         'menu_position'      => 20,
         'supports'           => array( 'title', 'editor', 'excerpt', 'thumbnail' ),
-        'taxonomies'         => array( 'fund_categories','fund_features' ),
+        'taxonomies'         => array( 'fund_features' ),
         'show_in_rest'       => true
     );
       
     register_post_type( 'Fund', $args );
 
-    /*
-    register_taxonomy(
-        'fund_categories',
-        'fund',
-        array(
-            'hierarchical' => true,
-            'label' => 'Fund categories',
-            'show_admin_column' => true,
-            'query_var' => true,
-            'rewrite' => array(
-                'slug' => 'fund-categories',
-                'with_front' => false
-            )
-        )
-    );
-    */
+    
 
     register_taxonomy(
         'fund_features',
@@ -75,11 +60,28 @@ function post_type_crowfunding_init() {
         'has_archive'        => true,
         'hierarchical'       => false,
         'menu_position'      => 20,
-        'supports'           => array( 'title', 'editor', 'excerpt', 'thumbnail' ),
+        'supports'           => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments' ),
         'taxonomies'         => array(),
         'show_in_rest'       => true
     );
       
     register_post_type( 'Lending', $args );
+
+    
+    register_taxonomy(
+        'lending_features',
+        'lending',
+        array(
+            'hierarchical' => true,
+            'label' => 'Lending features',
+            'show_admin_column' => true,
+            'query_var' => true,
+            'rewrite' => array(
+                'slug' => 'lending-features',
+                'with_front' => false
+            )
+        )
+    );
+    
 }
 add_action( 'init', 'post_type_crowfunding_init' );

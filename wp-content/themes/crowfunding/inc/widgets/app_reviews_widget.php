@@ -81,7 +81,7 @@ class App_Reviews_Widget extends WP_Widget {
 	          mounted () {
 			    axios
 			      .get(this.mod_api_url + '?limit='+this.mod_limit)
-			      .then( response => (this.items = response.data) )
+			      .then( response => (this.items = response.data.items) )
 			      .then( function(response){
 			      	let obj = jQuery('#<?= $args['widget_id']; ?>').find('.flickity');
 			      	let data_flickity = jQuery.parseJSON( obj.attr('data-flickity') );

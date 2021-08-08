@@ -247,6 +247,10 @@
         }
         .el__title {
             margin-top: 0;
+            a{
+                -webkit-line-clamp: 2;
+            }
+            
         }
         &:first-child {
             border-top: 0;
@@ -279,7 +283,13 @@
             }
         }
     }
-
+    @media ( max-width: 375px ) {
+        .el__list{
+            li {
+                padding: 0 8px;
+            }
+        }
+    }
 }
 
 
@@ -385,7 +395,9 @@
     }
     @media ( max-width: 767px ) {
         .el__title {
-         
+            a{
+                -webkit-line-clamp: 2;
+            }
         }
     }
 }

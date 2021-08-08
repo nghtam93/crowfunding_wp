@@ -6,6 +6,7 @@ include dirname(__FILE__).'/apis/Fund_Route.php';
 include dirname(__FILE__).'/apis/Lending_Route.php';
 include dirname(__FILE__).'/apis/News_Route.php';
 include dirname(__FILE__).'/apis/Review_Route.php';
+include dirname(__FILE__).'/apis/Form_Route.php';
 
 add_action( 'rest_api_init', 'theme_register_routes' );
 function theme_register_routes(){
@@ -14,4 +15,5 @@ function theme_register_routes(){
 	( new Lending_Route() )->register_routes();
 	( new News_Route() )->register_routes();
 	( new Review_Route() )->register_routes();
+	( new Form_Route() )->register_routes();
 }

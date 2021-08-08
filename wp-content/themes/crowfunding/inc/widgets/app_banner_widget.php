@@ -30,25 +30,29 @@ class App_Banner_Widget extends WP_Widget {
 	                        <p class="el__header__sub">{{ mod_sub_title }}</p>
 	                    </header>
 	                    <div class="el__img">
-	                        <img src="images/sc-header-img.png" alt="">
+	                        <img v-bind:src="image" alt="">
 	                    </div>
 	                </div>
 	                <div class="col-md-6 animate__animated animate__backInRight">
 	                    <div class="box__advanced__search">
 	                        <div class="box__header">
-	                            <p class="box__header__title">- ソーシャルレンディングを検索 - </p>
+	                            <p class="box__header__title">- {{ form_title }} - </p>
 	                        </div>
-	                        <form action="" class="box__content">
+	                        <form v-bind:action="more_url" class="box__content">
 	                            <div class="mb-3 row">
 	                                <label for="" class="col-sm-3 col-form-label">事業者名</label>
 	                                <div class="col-sm-9">
-	                                    <input type="text" class="form-control" value="">
+	                                	<select name="business_name" class="form-control">
+	                                		<option value=""> </option>
+	                                		<option v-for="company in companies" v-bind:value="company">{{ company }}</option>
+	                                	</select>
 	                                </div>
 	                            </div>
 	                            <div class="mb-3 row">
 	                                <label for="" class="col-sm-3 col-form-label">利回り</label>
 	                                <div class="col-sm-9">
 	                                <input type="text" class="js-range-slider" 
+	                                name="yield" 
 	                                data-min="1"
 	                                data-max="15"
 	                                data-postfix="%" >
@@ -58,6 +62,7 @@ class App_Banner_Widget extends WP_Widget {
 	                                <label for="" class="col-sm-3 col-form-label">運用期間</label>
 	                                <div class="col-sm-9">
 	                                <input type="text" class="js-range-slider" 
+	                                name="period" 
 	                                data-min="1"
 	                                data-max="36"
 	                                data-postfix="ヶ月" >
@@ -67,12 +72,13 @@ class App_Banner_Widget extends WP_Widget {
 	                                <label for="" class="col-4 col-sm-3 col-form-label">保証の有無</label>
 	                                <div class="col-8 col-sm-9">
 	                                    <div class="form-check form-check-inline">
-	                                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-	                                        <label class="form-check-label" for="inlineCheckbox1">保証あり</label>
+	                                        <input class="form-check-input" type="checkbox" id="g_ja" value="0"
+	                                        name="guarantee[]">
+	                                        <label class="form-check-label" for="g_ja">保証あり</label>
 	                                      </div>
 	                                      <div class="form-check form-check-inline">
-	                                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-	                                        <label class="form-check-label" for="inlineCheckbox2">保証なし</label>
+	                                        <input class="form-check-input" type="checkbox" id="g_nee" value="1" name="guarantee[]">
+	                                        <label class="form-check-label" for="g_nee">保証なし</label>
 	                                      </div>
 	                                </div>
 	                            </div>
@@ -88,12 +94,21 @@ class App_Banner_Widget extends WP_Widget {
 	    </section>
 	    <script type="text/javascript">
 	        var social_banner_app = new Vue({
-	          el: '#<?= $args['widget_id']; ?>',
-	          data: {
-	            items: null,
-	            mod_title: '<?= $instance['title']; ?>',
-	            mod_sub_title: '<?= $instance['sub_title']; ?>',
-	          }
+          		el: '#<?= $args['widget_id']; ?>',
+          		data: {
+		            companies: null,
+		            mod_title: '<?= $instance['title']; ?>',
+		            mod_sub_title: '<?= $instance['sub_title']; ?>',
+		            image: '<?= $instance['image']; ?>',
+		            form_title: '<?= $instance['form_title']; ?>',
+		            more_url: '<?= $instance['more_url']; ?>',
+	             	mod_api_url: '<?= $this->home_url; ?>/wp-json/crowfunding/forms/get_companies'
+	          	},
+	          	mounted () {
+			    	axios
+			      	.get(this.mod_api_url + '?limit='+this.mod_limit)
+			      	.then( response => (this.companies = response.data.items) )
+		  		}
 	        });
 	        
 	    </script>
@@ -151,12 +166,22 @@ class App_Banner_Widget extends WP_Widget {
 			'title' => [
 				'label' => 'Title',
 				'type' => 'text',
-				'value' => ( empty($instance['title']) ) ? 'クチコミ' : $instance['title'],
+				'value' => ( empty($instance['title']) ) ? '' : $instance['title'],
 			],
 			'sub_title' => [
 				'label' => 'Sub title',
 				'type' => 'text',
-				'value' => ( empty($instance['sub_title']) ) ? 'Customer Voice' : $instance['sub_title'],
+				'value' => ( empty($instance['sub_title']) ) ? '' : $instance['sub_title'],
+			],
+			'image' => [
+				'label' => 'Image',
+				'type' => 'text',
+				'value' => ( empty($instance['image']) ) ? '' : $instance['image'],
+			],
+			'form_title' => [
+				'label' => 'Form title',
+				'type' => 'text',
+				'value' => ( empty($instance['form_title']) ) ? '' : $instance['form_title'],
 			],
 			'limit' => [
 				'label' => 'Limit',
@@ -164,7 +189,7 @@ class App_Banner_Widget extends WP_Widget {
 				'value' => ( empty($instance['limit']) ) ? 4 : $instance['limit'],
 			],
 			'more_url' => [
-				'label' => 'More Url',
+				'label' => 'Form Url',
 				'type' => 'text',
 				'value' => ( empty($instance['more_url']) ) ? '' : $instance['more_url'],
 			]

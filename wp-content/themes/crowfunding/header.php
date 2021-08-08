@@ -12,7 +12,7 @@
   <body <?php body_class(); ?>>
     <div class="wrapper">
 
-        <header class="header header--sticky" data-toggle="sticky-onscroll">
+        <header class="header" data-toggle="sticky-onscroll">
             <div class="container-fluid d-flex align-items-center">
                 <a href="#menu__mobile" class="menu-mb__btn">
                     <span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></span>

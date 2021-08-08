@@ -14,7 +14,8 @@ class Lending_Route extends WP_REST_Controller  {
             'fund_values_guarantee',
             'fund_values_operation_period',
             'fund_values_planned_distribution_rate',
-            'fund_values_total_offer'
+            'fund_values_total_offer',
+            'company_business_name',
         ];
     }
 
@@ -83,15 +84,37 @@ class Lending_Route extends WP_REST_Controller  {
 
         global $AppDb,$wpdb;
 
+        $pagination = ( isset($request['pagination']) ) ? $request['pagination'] : 0;
+        $cat_id     = ( isset($request['cat_id']) ) ? $request['cat_id'] : 0;
+        $page       = ( isset($request['page']) ) ? $request['page'] : 1;
+        $limit      = ( isset($request['limit']) ) ? $request['limit'] : 10;
+
         $cols = ['ID','post_title','post_name','post_excerpt'];
 
         $AppDb->where ("post_type",'lending');
         $AppDb->where ("post_status",'publish');
-        $items = $AppDb->ObjectBuilder()->get ($wpdb->prefix."posts", null, $cols);
+        $totalPages = 1;
+
+        if( $pagination ){
+            $AppDb->pageLimit = $limit;
+            $items = $AppDb->ObjectBuilder()->paginate($wpdb->prefix."posts as p", $page);
+            $totalPages = $AppDb->totalPages;
+        }else{
+            $items = $AppDb->ObjectBuilder()->get ($wpdb->prefix."posts as p", $limit, $cols);
+        }
 
         foreach ($items as $item) {
             $item->post_link    = $this->home_url.'/'.$this->post_slug.'/'.$item->post_name;
             $item->post_image   = $this->home_url.'/images/company-1.png';
+
+            $features     = get_the_terms($item->ID,'lending_features');
+            $item->features_html= '';
+            foreach ($features as $feature) {
+               //$item->features_html .= '<li><a href="">'.$feature->name.'</a></li>';
+               $item->features_html .= '<li>'.$feature->name.'</li>';
+            }
+
+            
 
             $AppDb->where ("post_id",$item->ID);
             $AppDb->where ("meta_key",$this->meta_fields,"IN");
@@ -102,7 +125,10 @@ class Lending_Route extends WP_REST_Controller  {
             }
         }
 
-        return rest_ensure_response( $items );
+        $return['items']        = $items;
+        $return['totalPages']   = $totalPages;
+
+        return rest_ensure_response( $return );
     }
 
 

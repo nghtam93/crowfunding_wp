@@ -10,8 +10,10 @@ $siteurl = get_option('siteurl');
 $item_id = get_the_ID();
 $cat_id  = get_post_meta($item_id,'category',true);
 $limit   = get_post_meta($item_id,'limit',true);
+$cat_id  = ($cat_id) ? $cat_id : 0;
 $limit   = ($limit) ? $limit : 10;
 $custom_header_title  = get_post_meta($item_id,'custom_header_title',true);
+$custom_header_title = ($custom_header_title) ? $custom_header_title : get_the_title();
 $cr_page  = ( isset($_GET['mp']) ) ? $_GET['mp'] : 1;
 ?>
 <div class="dn__breadcrumb" typeof="BreadcrumbList" vocab="https://schema.org/">

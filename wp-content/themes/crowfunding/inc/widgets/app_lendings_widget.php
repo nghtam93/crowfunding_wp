@@ -36,7 +36,7 @@ class App_Lendings_Widget extends WP_Widget {
 	                                <img v-bind:src="item.post_image" alt="">
 	                            </a>
 	                            <div class="el__meta">
-	                                <div class="el__company">株式会社フィンスター</div>
+	                                <div class="el__company">{{ item.company_business_name }}</div>
 	                                <h3 class="el__title text__truncate"><a v-bind:href="item.post_link">{{ item.post_title }}</a></h3>
 
 	                                <ul class="el__tag" v-html="item.features_html"></ul>
@@ -66,7 +66,7 @@ class App_Lendings_Widget extends WP_Widget {
 	          mounted () {
 			    axios
 			      .get(this.mod_api_url + '?limit='+this.mod_limit)
-			      .then( response => (this.items = response.data) )
+			      .then( response => (this.items = response.data.items) )
 			      .then( function(response){
 			      	let obj = jQuery('#<?= $args['widget_id']; ?>').find('.flickity');
 			      	let data_flickity = jQuery.parseJSON( obj.attr('data-flickity') );

@@ -29,41 +29,41 @@ class App_Funds_Widget extends WP_Widget {
 	            </header>
 	            <div class="sc__content wow animate__animated animate__fadeInUp">
 
-	                <div v-if="products"
-	                	v-for="product in products" class="product__item ef--zoomin">
+	                <div v-if="items"
+	                	v-for="item in items" class="product__item ef--zoomin">
 	                    <div class="row">
 	                        <div class="col-md-5 col-lg-34 wow animate__animated animate__fadeInLeft">
-	                            <a v-bind:href="product.post_link" class="el__thumb dnfix__thumb">
+	                            <a v-bind:href="item.post_link" class="el__thumb dnfix__thumb">
 	                                <div class="el__status">募集中</div>
-	                                <img v-bind:src="product.post_image" alt="">
+	                                <img v-bind:src="item.post_image" alt="">
 	                            </a>
 	                        </div>
 	                        <div class="col-md-7 col-lg-66 wow animate__animated animate__fadeInRight">
-	                            <h3 class="el__title text-truncate"><a v-bind:href="product.post_link">{{ product.post_title }}</a></h3>
+	                            <h3 class="el__title text-truncate"><a v-bind:href="item.post_link">{{ item.post_title }}</a></h3>
 	                            <div class="d-flex">
-	                                <span class="me-3">クラウドビルズ</span>
-	                                <span>({{ product.comment_count }}件のクチコミ）</span>
+	                                <span class="me-3">{{ item.company_business_name }}</span>
+	                                <span>({{ item.comment_count }}件のクチコミ）</span>
 	                            </div>
-	                            <ul class="el__tag" v-html="product.features_html"></ul>
+	                            <ul class="el__tag" v-html="item.features_html"></ul>
 	                            <div class="el__sub text__truncate">
-	                                {{ product.post_excerpt }}...
+	                                {{ item.post_excerpt }}...
 	                            </div>
 	                            <ul class="el__list">
 	                                <li>
 		                                <label>募集総額</label>
-		                                <p>{{ product.fund_values_total_offer }}<span>万円</span></p>
+		                                <p>{{ item.fund_values_total_offer }}<span>万円</span></p>
 		                            </li>
 		                            <li>
 		                                <label>予定分配率</label>
-		                                <p>{{ product.fund_values_planned_distribution_rate }}<span>%</span></p>
+		                                <p>{{ item.fund_values_planned_distribution_rate }}<span>%</span></p>
 		                            </li>
 		                            <li>
 		                                <label>運用期間</label>
-		                                <p>{{ product.fund_values_operation_period }}<span>ヶ月</span></p>
+		                                <p>{{ item.fund_values_operation_period }}<span>ヶ月</span></p>
 		                            </li>
 		                            <li>
 		                                <label>保証</label>
-		                                <p>有り</p>
+		                                <p>{{ item.fund_values_guarantee }}</p>
 		                            </li>
 	                            </ul>
 	                        </div>
@@ -74,7 +74,7 @@ class App_Funds_Widget extends WP_Widget {
 					</div>
 
 	                <div class="text-center pt-3">
-	                    <a href="#" class="sc__readmore btn btn__primary">ファンド一覧/検索</a>
+	                    <a v-bind:href="more_url" class="sc__readmore btn btn__primary">ファンド一覧/検索</a>
 	                </div>
 	            </div>
 	        </div>
@@ -83,16 +83,17 @@ class App_Funds_Widget extends WP_Widget {
 	        var social_lending_app = new Vue({
 	          el: '#<?= $args['widget_id']; ?>',
 	          data: {
-	            products: null,
+	            items: null,
 	            mod_title: '<?= $instance['title']; ?>',
 	            mod_sub_title: '<?= $instance['sub_title']; ?>',
-	             mod_limit: '<?= $instance['limit']; ?>',
+	            mod_limit: '<?= $instance['limit']; ?>',
+	            more_url: '<?= $instance['more_url']; ?>',
 	            mod_api_url: '<?= $this->home_url; ?>/wp-json/crowfunding/funds'
 	          },
 	          mounted () {
 			    axios
 			      .get(this.mod_api_url + '?limit='+this.mod_limit)
-			      .then( response => (this.products = response.data) )
+			      .then( response => (this.items = response.data.items) )
 			  }
 	        });
 	        
