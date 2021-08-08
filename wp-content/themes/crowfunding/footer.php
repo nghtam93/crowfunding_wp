@@ -35,17 +35,21 @@
                 <hr>
 
                 <nav class="footer__nav">
-                    <ul class="">
-                        <li class="menu-item"><a href="">クラファンなびについて</a></li>
-                        <li class="menu-item"><a href="">お問い合わせ</a></li>
-                        <li class="menu-item"><a href="">プライバシーポリシー</a></li>
-                        <li class="menu-item"><a href="">利用規約</a></li>
-                        <li class="menu-item"><a href="">運営会社</a></li>
-                    </ul>
+                    <?php
+                    wp_nav_menu(
+                        array(
+                            'theme_location' => 'footer-menu',
+                            'container'      => '',
+                            'menu_class'     => '',
+                            'fallback_cb'    => 'WP_Bootstrap_Navwalker::fallback',
+                            'walker'         => new WP_Bootstrap_Navwalker(),
+                        )
+                    );
+                    ?>
                 </nav>
 
                 <div class="sc-copyright">
-                    <p>©︎ finstar Inc. All right reserved</p>
+                    <p>©︎ Crowfunding Inc. All right reserved</p>
                 </div>
             </div>
         </footer>

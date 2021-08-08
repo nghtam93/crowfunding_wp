@@ -86,10 +86,12 @@ class App_Funds_Widget extends WP_Widget {
 	            products: null,
 	            mod_title: '<?= $instance['title']; ?>',
 	            mod_sub_title: '<?= $instance['sub_title']; ?>',
+	             mod_limit: '<?= $instance['limit']; ?>',
+	            mod_api_url: '<?= $this->home_url; ?>/wp-json/crowfunding/funds'
 	          },
 	          mounted () {
 			    axios
-			      .get('<?= $this->home_url; ?>/wp-json/crowfunding/funds')
+			      .get(this.mod_api_url + '?limit='+this.mod_limit)
 			      .then( response => (this.products = response.data) )
 			  }
 	        });
@@ -161,6 +163,11 @@ class App_Funds_Widget extends WP_Widget {
 				'type' => 'text',
 				'value' => ( empty($instance['limit']) ) ? 4 : $instance['limit'],
 			],
+			'more_url' => [
+				'label' => 'More Url',
+				'type' => 'text',
+				'value' => ( empty($instance['more_url']) ) ? '' : $instance['more_url'],
+			]
 		];
 		return $fields;
 	}

@@ -76,7 +76,7 @@ function post_type_crowfunding_init() {
         'hierarchical'       => false,
         'menu_position'      => 20,
         'supports'           => array( 'title', 'editor', 'excerpt', 'thumbnail' ),
-        'taxonomies'         => array( 'category' ),
+        'taxonomies'         => array(),
         'show_in_rest'       => true
     );
       

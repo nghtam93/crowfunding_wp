@@ -1,10 +1,10 @@
 <?php
-class App_Lendings_Widget extends WP_Widget {
+class App_Tags_Widget extends WP_Widget {
 	public function __construct() {
 		$this->widget_cssclass    = '';
-		$this->widget_description = '[Theme] List Lending';
-		$this->widget_id          = 'app_lending_widget';
-		$this->widget_name        = __( '[Theme] List Lending', 'crowfunding' );
+		$this->widget_description = '[Theme] Tags';
+		$this->widget_id          = 'app_tags_widget';
+		$this->widget_name        = __( '[Theme] Tags', 'crowfunding' );
 		$this->home_url 		  = get_option('siteurl');
 
 		$widget_ops = array(
@@ -21,57 +21,44 @@ class App_Lendings_Widget extends WP_Widget {
 		//$html .= $args['before_title'] . $title . $args['after_title'];
 		ob_start();
 		?>
-	    <section class="sc-lending" id="<?= $args['widget_id']; ?>">
-	        <div class="container">
-	            <header class="sc__header text-center wow animate__animated animate__pulse">
-	                <h2 class="sc__header__title">{{ mod_title }}</h2>
-	                <p class="sc__header__sub">{{ mod_sub_title }}</p>
-	            </header>
-	            <div class="sc__content wow animate__animated animate__fadeInUp">
-	                <div v-if="items" class=" new__slider flickity" data-flickity='{ "autoPlay": true ,"cellAlign": "left", "contain": true, "wrapAround": true, "groupCells": true, "pageDots": false,"prevNextButtons": true }'>
-
-	                    <div  v-for="item in items" class="col-12 col-md-6 col-lg-4 el__col">
-	                        <div class="new__item ef--zoomin">
-	                            <a v-bind:href="item.post_link" class="el__thumb dnfix__thumb">
-	                                <img v-bind:src="item.post_image" alt="">
-	                            </a>
-	                            <div class="el__meta">
-	                                <div class="el__company">株式会社フィンスター</div>
-	                                <h3 class="el__title text__truncate"><a v-bind:href="item.post_link">{{ item.post_title }}</a></h3>
-
-	                                <ul class="el__tag" v-html="item.features_html"></ul>
-	                                <div class="el__sub text__truncate -n2">
-	                                      {{ item.post_excerpt }}...
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	                <div class="text-end">
-	                    <a href="" class="sc__readmore--text">ソーシャルレンディング事業者一覧を見る<span class="icon-long-arrow-right"></span></a>
-	                </div>
-	            </div>
-	        </div>
-	    </section>
+	    <section class="sc-tag" id="<?= $args['widget_id']; ?>">
+        <div class="container">
+            <header class="sc-tag__header text-center">
+                <h2 class="sc-tag__header__title">{{ mod_title }}</h2>
+            </header>
+            <ul class="sc-tag__list wow animate__animated animate__fadeInUp">
+                <li><a href="">不動産投資</a></li>
+                <li><a href="">ソーシャルレンディング</a></li>
+                <li><a href="">クラウドファンディング</a></li>
+                <li><a href="">利回り</a></li>
+                <li><a href="">S T O</a></li>
+                <li><a href="">マネタイズ</a></li>
+                <li><a href="">投資利回り</a></li>
+                <li><a href="">クラウドファンディング</a></li>
+                <li><a href="">利回り</a></li>
+                <li><a href="">S T O</a></li>
+                <li><a href="">マネタイズ</a></li>
+            </ul>
+            <div class="text-end">
+                <a v-bind:href="item.item_more_link" class="sc__readmore--text">全てのタグを見る<span class="icon-long-arrow-right"></span></a>
+            </div>
+        </div>
+    </section>
 	    <script type="text/javascript">
-	        var social_lending_app = new Vue({
+	        var social_reviews_app = new Vue({
 	          el: '#<?= $args['widget_id']; ?>',
 	          data: {
 	            items: null,
 	            mod_title: '<?= $instance['title']; ?>',
 	            mod_sub_title: '<?= $instance['sub_title']; ?>',
-	             mod_limit: '<?= $instance['limit']; ?>',
-	            mod_api_url: '<?= $this->home_url; ?>/wp-json/crowfunding/lendings'
+	            mod_limit: '<?= $instance['limit']; ?>',
+	            mod_more_url: '<?= $instance['more_url']; ?>',
+	            mod_api_url: '<?= $this->home_url; ?>/wp-json/crowfunding/tags'
 	          },
 	          mounted () {
-			    axios
-			      .get(this.mod_api_url + '?limit='+this.mod_limit)
-			      .then( response => (this.items = response.data) )
-			      .then( function(response){
-			      	let obj = jQuery('#<?= $args['widget_id']; ?>').find('.flickity');
-			      	let data_flickity = jQuery.parseJSON( obj.attr('data-flickity') );
-		            obj.flickity( data_flickity );
-			      })
+			    // axios
+			    //   .get(this.mod_api_url + '?limit='+this.mod_limit)
+			    //   .then( response => (this.items = response.data) )
 			  }
 	        });
 	        
@@ -130,12 +117,7 @@ class App_Lendings_Widget extends WP_Widget {
 			'title' => [
 				'label' => 'Title',
 				'type' => 'text',
-				'value' => ( empty($instance['title']) ) ? 'ソーシャルレンディング' : $instance['title'],
-			],
-			'sub_title' => [
-				'label' => 'Sub title',
-				'type' => 'text',
-				'value' => ( empty($instance['sub_title']) ) ? 'COLUM' : $instance['sub_title'],
+				'value' => ( empty($instance['title']) ) ? 'クチコミ' : $instance['title'],
 			],
 			'limit' => [
 				'label' => 'Limit',

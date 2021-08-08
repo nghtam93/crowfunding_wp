@@ -1,3 +1,10 @@
+<?php
+/**
+ * Template Name: Page (Lending)
+ * Description: Page template full width.
+ *
+ */
+?>
 <?php get_header();
 $siteurl = get_option('siteurl');
 ?>

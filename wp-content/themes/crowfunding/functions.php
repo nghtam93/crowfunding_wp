@@ -183,20 +183,23 @@ function crowfunding_scripts_loader() {
 		'icomoon' 	=> 'assets/libs/icomoon/style.css',
 		'rangeSlider' 	=> 'assets/libs/ion-rangeSlider/css/ion.rangeSlider.min.css',
 		'flickity' 	=> 'assets/libs/flickity/flickity.min.css',
-		'main' 	=> 'assets/css/main.css',
+		'rateit' 	=> 'assets/libs/rateit.js/rateit.css',
+		'main' 		=> 'assets/css/main.css',
 	];
 
 	$header_js = [
-		'jquery' => 'assets/js/jquery.min.3.5.1.js',
-		'flickity' => 'assets/libs/flickity/flickity.pkgd.min.js',
+		'jquery' 	=> 'assets/js/jquery.min.3.5.1.js',
+		'flickity' 	=> 'assets/libs/flickity/flickity.pkgd.min.js',
+		'ckeditor' 	=> 'assets/libs/ckeditor5-build-classic/ckeditor.js'
 	];
 
 
 	$footer_js = [
-		'bootstrap' => 'assets/libs/bootstrap/js/bootstrap.bundle.min.js',
-		'rangeSlider' => 'assets/libs/ion-rangeSlider/js/ion.rangeSlider.min.js',
-		'wow' => 'assets/js/wow.min.js',
-		'main' => 'assets/js/main.js',
+		'bootstrap' 	=> 'assets/libs/bootstrap/js/bootstrap.bundle.min.js',
+		'rangeSlider' 	=> 'assets/libs/ion-rangeSlider/js/ion.rangeSlider.min.js',
+		'rateit' 		=> 'assets/libs/rateit.js/jquery.rateit.js',
+		'wow' 			=> 'assets/js/wow.min.js',
+		'main' 			=> 'assets/js/main.js'
 	];
 
 

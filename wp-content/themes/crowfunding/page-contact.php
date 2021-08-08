@@ -21,4 +21,34 @@ $siteurl = get_option('siteurl');
         </div>
     </div>
 </div>
+<script>
+	    ClassicEditor
+		.create( document.querySelector( '#editor' ), {
+			toolbar: {
+					items: [
+						'heading',
+						'|',
+						'bold',
+						'italic',
+						'bulletedList',
+						'numberedList',
+						'|',
+						'undo',
+						'redo'
+					]
+				},
+		} )
+		.then( editor => {
+			window.editor = editor;
+		} )
+		.catch( err => {
+			console.error( err.stack );
+		} );
+
+        (function($){
+
+        })(jQuery);
+
+        
+    </script>
 <?php get_footer(); ?>
