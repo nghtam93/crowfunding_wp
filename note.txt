@@ -1,0 +1,31 @@
+8590
+Abc1234567
+
+cg
+devcode15
+
+	Home - search - OK
+	Check mod fund - OK
+	Check mod lending- OK
+	Check mod news 1- OK
+	Check mod news 2- OK
+	Check mod void - OK
+	Check mod task - OK
+	Check mod 3 boxes - CHƯA xong làm động
+	Link footer- OK
+	
+	
+	fund - search - Form CHƯA xong
+	fund - list OK
+	fund - detail -> kiểm tra 償還方法
+	
+	lending - list CHƯA reviews
+	lending - detail CHƯA reviews
+	
+	reviews - list CHƯA xong
+	reviews - add CHƯA xong
+	
+	news - investment OK
+	news - news OK
+	
+	Inquery - language OK
