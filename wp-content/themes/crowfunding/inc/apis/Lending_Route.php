@@ -6,17 +6,28 @@ class Lending_Route extends WP_REST_Controller  {
 
     public function __construct() {
         $this->namespace = 'crowfunding';
-        $this->rest_base_index  = 'lendings';
+
         $this->rest_base        = 'lendings';
         $this->post_slug = 'lending';
         $this->home_url  = get_option('siteurl');
         $this->meta_fields = [
-            'fund_values_guarantee',
-            'fund_values_operation_period',
-            'fund_values_planned_distribution_rate',
-            'fund_values_total_offer',
             'company_business_name',
+            'company_service_title',
         ];
+        $this->single_meta_fields = array_merge($this->meta_fields,[
+            'recruitment_outline_administrative_disposition',
+            'recruitment_outline_bad_debt',
+            'recruitment_outline_deposit_bank',
+            'recruitment_outline_account_type',
+            'recruitment_outline_yield',
+            'recruitment_outline_board_member',
+            'recruitment_outline_shareholders',
+            'recruitment_outline_address',
+            'recruitment_outline_set_up',
+            'recruitment_outline_operation_type',
+            'features',
+            'table_of_contents',
+        ]);
     }
 
     /**
@@ -25,7 +36,7 @@ class Lending_Route extends WP_REST_Controller  {
     public function register_routes() {
         register_rest_route(
             $this->namespace,
-            '/' . $this->rest_base_index,
+            '/' . $this->rest_base,
             [
                 [
                     'methods'             => \WP_REST_Server::READABLE,
@@ -106,7 +117,7 @@ class Lending_Route extends WP_REST_Controller  {
         foreach ($items as $item) {
             $item->post_link    = $this->home_url.'/'.$this->post_slug.'/'.$item->post_name;
             $item->post_image   = $this->home_url.'/images/company-1.png';
-
+            $item->post_image   = wp_get_attachment_url( get_post_thumbnail_id($item->ID) );
             $features     = get_the_terms($item->ID,'lending_features');
             $item->features_html= '';
             foreach ($features as $feature) {
@@ -121,6 +132,9 @@ class Lending_Route extends WP_REST_Controller  {
             $metas = $AppDb->ObjectBuilder()->get ($wpdb->prefix."postmeta", null, ['meta_key','meta_value']);
 
             foreach ($metas as $meta) {
+                if( $meta->meta_key == 'features' ){
+                    $meta->meta_value = get_field('features',$item->ID);
+                }
                 $item->{$meta->meta_key} = $meta->meta_value;
             }
         }
@@ -131,27 +145,38 @@ class Lending_Route extends WP_REST_Controller  {
         return rest_ensure_response( $return );
     }
 
+    public function show( $request ) {
 
-    public function store( $request ) {
+        global $AppDb,$wpdb;
+        $item_id = $request['id'];
 
-        // Data validation
-        $firstname = isset( $request['firstname'] ) ? sanitize_text_field( $request['firstname'] ): '';
-        $lastname  = isset( $request['lastname'] ) ? sanitize_text_field( $request['lastname'] )  : '';
-        $email     = isset( $request['email'] ) && is_email( $request['email'] ) ? sanitize_email( $request['email'] ) : '';
+        $cols = ['ID','post_title','post_name','post_content','comment_count'];
 
-        // Save option data into WordPress
-        update_option( 'wpvk_settings_firstname', $firstname );
-        update_option( 'wpvk_settings_lastname', $lastname );
-        update_option( 'wpvk_settings_email', $email );
+        $AppDb->where ("ID",$item_id);
+        $AppDb->where ("post_type",'lending');
+        $AppDb->where ("post_status",'publish');
+        $item = $AppDb->ObjectBuilder()->getOne ($wpdb->prefix."posts",$cols);
 
-        $response = [
-            'firstname' => $firstname,
-            'lastname'  => $lastname,
-            'email'     => $email
-        ];
-
-        return rest_ensure_response( $response );
+        $item->post_link    = $this->home_url.'/'.$this->post_slug.'/'.$item->post_name;
+        $item->post_image   = $this->home_url.'/images/product-1.png';
+        $item->post_image   = wp_get_attachment_url( get_post_thumbnail_id($item->ID) );
         
+
+        $AppDb->where ("post_id",$item->ID);
+        $AppDb->where ("meta_key",$this->single_meta_fields,"IN");
+        $metas = $AppDb->ObjectBuilder()->get ($wpdb->prefix."postmeta", null, ['meta_key','meta_value']);
+
+        foreach ($metas as $meta) {
+            if( $meta->meta_key == 'features' ){
+                $meta->meta_value = get_field('features',$item->ID);
+            }
+            if( $meta->meta_key == 'table_of_contents' ){
+                $meta->meta_value = get_field('table_of_contents',$item->ID);
+            }
+            $item->{$meta->meta_key} = $meta->meta_value;
+        }
+
+        return rest_ensure_response( $item );
     }
 
     /* photos */

@@ -8,17 +8,17 @@ $siteurl = get_option('siteurl');
     </div>
 </div>
 <div class="wrap__page" id="fund_detail_app">   
-    <div class="container" v-if="product">
+    <div class="container" v-if="item">
         <header class="page__header mb-3">
-            <h1 class="page__header__title">{{ product.post_title }} の詳細</h1>
+            <h1 class="page__header__title">{{ item.post_title }} の詳細</h1>
         </header><!-- .page-header -->
 
-        <ul class="single-fund__tag" v-html="product.features_html"></ul>
+        <ul class="single-fund__tag" v-html="item.features_html"></ul>
 
         <div class="single-fund__main">
             <div class="row">
                 <div class="col-md-12 col-lg-7">
-                    <div class="product-gallery">
+                    <div class="item-gallery">
                         <div class="carousel carousel-main"
                         data-flickity='{
                                 "cellAlign": "center",
@@ -32,7 +32,7 @@ $siteurl = get_option('siteurl');
                                 "pageDots": false,
                                 "rightToLeft": false
                         }'>
-                            <div v-for="gallery in product.gallery" class="carousel-cell">
+                            <div v-for="gallery in item.gallery" class="carousel-cell">
                                 <div class="el__thumb dnfix__thumb">
                                     <a v-href:src="gallery" data-fancybox="group">
                                         <img v-bind:src="gallery" />
@@ -56,14 +56,14 @@ $siteurl = get_option('siteurl');
                                 "contain": true
                             }'
                         >
-                            <div v-for="gallery in product.gallery" class="el__col col-3 col-lg-20">
+                            <div v-for="gallery in item.gallery" class="el__col col-3 col-lg-20">
                                 <div class="el__thumb dnfix__thumb">
                                     <img v-bind:src="gallery" />
                                 </div>
                             </div>
                             
                          
-                        </div><!-- .product-thumbnails -->
+                        </div><!-- .item-thumbnails -->
                     </div> 
 
                 </div>
@@ -72,33 +72,33 @@ $siteurl = get_option('siteurl');
                         <ul>
                             <li>
                                 <div class="el__label">想定利回り（年利）</div>
-                                <div class="el__value">{{ product.fund_values_planned_distribution_rate }}%</div>
+                                <div class="el__value">{{ item.fund_values_planned_distribution_rate }}%</div>
                             </li>
                             <li>
                                 <div class="el__label">想定運用期間</div>
-                                <div class="el__value">{{ product.fund_values_operation_period }}ヶ月</div>
+                                <div class="el__value">{{ item.fund_values_operation_period }}ヶ月</div>
                             </li>
                             <li>
                                 <div class="el__label">募集総額</div>
                                 <div class="el__value">
-                                    {{ product.fund_values_total_offer }}万円
+                                    {{ item.fund_values_total_offer }}万円
                                     <div class="el__value__sub">
-                                        成立下限額 {{ product.fund_values_minimum_amount }}万円
+                                        成立下限額 {{ item.fund_values_minimum_amount }}万円
 
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <div class="el__label">一口出資金額</div>
-                                <div class="el__value">{{ product.fund_values_investment_amount }}万円</div>
+                                <div class="el__value">{{ item.fund_values_investment_amount }}万円</div>
                             </li>
                             <li>
                                 <div class="el__label">初回配当予定日</div>
-                                <div class="el__value">{{ product.fund_values_dividend_date }}月</div>
+                                <div class="el__value">{{ item.fund_values_dividend_date }}月</div>
                             </li>
                             <li>
                                 <div class="el__label">募集期間</div>
-                                <div class="el__value">{{ product.fund_values_recruitment_period }}</div>
+                                <div class="el__value">{{ item.fund_values_recruitment_period }}</div>
                             </li>
                         </ul>
                         <div class="mt-3 text-center">
@@ -118,62 +118,62 @@ $siteurl = get_option('siteurl');
             </header><!-- .page-header -->
             <div class="entry-content">
                 <div class="entry-content__text">
-                    {{ product.post_content }}
+                    {{ item.post_content }}
                 </div>
                 <table class="single-fund__table table table-bordered">
                     <tbody>
                         <tr>
                             <td colspan="2">募集総額</td>
-                            <td>{{ product.recruitment_outline_total_offer }}</td>
+                            <td>{{ item.recruitment_outline_total_offer }}</td>
                         </tr>
                         <tr>
                             <td colspan="2">運用タイプ</td>
-                            <td>{{ product.recruitment_outline_operation_type }}</td>
+                            <td>{{ item.recruitment_outline_operation_type }}</td>
                         </tr>
                         <tr>
                             <td colspan="2">募集方式</td>
-                            <td>{{ product.recruitment_outline_recruitment_method }}</td>
+                            <td>{{ item.recruitment_outline_recruitment_method }}</td>
                         </tr>
                         <tr>
                             <td colspan="2">貸付先数</td>
-                            <td>{{ product.recruitment_outline_number_of_lenders }}</td>
+                            <td>{{ item.recruitment_outline_number_of_lenders }}</td>
                         </tr>
                         <tr>
                             <td colspan="2">予定利回り</td>
-                            <td>{{ product.recruitment_outline_expected_yield }}</td>
+                            <td>{{ item.recruitment_outline_expected_yield }}</td>
                         </tr>
                         <tr>
                             <td colspan="2">匿名組合の償還予定日</td>
-                            <td>{{ product.recruitment_outline_scheduled_redemption_date }}</td>
+                            <td>{{ item.recruitment_outline_scheduled_redemption_date }}</td>
                         </tr>
                         <tr>
                             <td colspan="2">募集開始日</td>
-                            <td>{{ product.recruitment_outline_recruitment_start_date }}</td>
+                            <td>{{ item.recruitment_outline_recruitment_start_date }}</td>
                         </tr>
                         <tr>
                             <td colspan="2">投資実行日</td>
-                            <td>{{ product.recruitment_outline_investment_execution_date }}</td>
+                            <td>{{ item.recruitment_outline_investment_execution_date }}</td>
                         </tr>
                         <tr>
                             <td rowspan="3">償還方法</td>
                             <td>元本</td>
-                            <td>{{ product.recruitment_outline_redemption_method_principal }}</td>
+                            <td>{{ item.recruitment_outline_redemption_method_principal }}</td>
                             </tr>
                             <tr>
                             <td>利益配当</td>
-                            <td>{{ product.recruitment_outline_redemption_method_profit_dividend }}</td>
+                            <td>{{ item.recruitment_outline_redemption_method_profit_dividend }}</td>
                             </tr>
                             <tr>
                             <td>早期償還</td>
-                            <td>{{ product.recruitment_outline_redemption_method_early_redemption }}</td>
+                            <td>{{ item.recruitment_outline_redemption_method_early_redemption }}</td>
                             </tr>
                         <tr>
                             <td colspan="2">償還方法</td>
-                            <td>{{ product.recruitment_outline_redemption_method }}</td>
+                            <td>{{ item.recruitment_outline_redemption_method }}</td>
                         </tr>
                         <tr>
                             <td colspan="2">担保</td>
-                            <td>{{ product.recruitment_outline_collateral }}</td>
+                            <td>{{ item.recruitment_outline_collateral }}</td>
                         </tr>
                       </tbody>
                 </table>
@@ -191,12 +191,12 @@ let item_id = '<?= get_the_ID();?>';
 var fund_detail_app = new Vue({
     el: '#fund_detail_app',
     data: {
-        product: null,
+        item: null,
     },
     mounted () {
         axios
         .get('<?= $siteurl; ?>/wp-json/crowfunding/funds/'+item_id)
-        .then( response => (this.product = response.data) )
+        .then( response => (this.item = response.data) )
         .then( function(response){
 
             let main_flickity = jQuery.parseJSON( jQuery('.carousel-main').attr('data-flickity') );

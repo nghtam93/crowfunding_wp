@@ -174,6 +174,8 @@ class Fund_Route extends WP_REST_Controller  {
 
         $item->post_link    = $this->home_url.'/'.$this->post_slug.'/'.$item->post_name;
         $item->post_image   = $this->home_url.'/images/product-1.png';
+        $item->post_image   = wp_get_attachment_url( get_post_thumbnail_id($item->ID) );
+        
         $features     = get_the_terms($item_id,'fund_features');
         $item->features_html= '';
         foreach ($features as $feature) {
