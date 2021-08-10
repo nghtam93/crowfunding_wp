@@ -19,11 +19,24 @@ class Form_Route extends WP_REST_Controller  {
     public function register_routes() {
         register_rest_route(
             $this->namespace,
-            '/' . $this->rest_base.'/get_companies',
+            '/' . $this->rest_base.'/get_business',
             [
                 [
                     'methods'             => \WP_REST_Server::READABLE,
-                    'callback'            => [ $this, 'get_companies' ],
+                    'callback'            => [ $this, 'get_business' ],
+                    'permission_callback' => [ $this, 'get_items_permission_check' ],
+                    'args'                => $this->get_collection_params()
+                ]
+            ]
+        );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->rest_base.'/get_services',
+            [
+                [
+                    'methods'             => \WP_REST_Server::READABLE,
+                    'callback'            => [ $this, 'get_services' ],
                     'permission_callback' => [ $this, 'get_items_permission_check' ],
                     'args'                => $this->get_collection_params()
                 ]
@@ -33,9 +46,27 @@ class Form_Route extends WP_REST_Controller  {
 
     }
 
-    public function get_companies( $request ) {
+    public function get_services( $request ) {
+        global $AppDb,$wpdb;
+        //$AppDb->where ("meta_key","company_service_title");
+        $AppDb->where ("meta_key","company_business_name");
+        $AppDb->where ("meta_value","","!=");
+        $AppDb->groupBy ("meta_value");
+        $results  = $AppDb->ObjectBuilder()->get ($wpdb->prefix."postmeta", null, ['meta_value']);
+
+        $items = [];
+        if( count($results) ){
+            foreach ($results as $result) {
+                $items[] = $result->meta_value;
+            }
+        }
+        $return['items'] = $items;
+        return rest_ensure_response( $return );
+    }
+    public function get_business( $request ) {
         global $AppDb,$wpdb;
         $AppDb->where ("meta_key","company_business_name");
+        $AppDb->where ("meta_value","","!=");
         $AppDb->groupBy ("meta_value");
         $results  = $AppDb->ObjectBuilder()->get ($wpdb->prefix."postmeta", null, ['meta_value']);
 

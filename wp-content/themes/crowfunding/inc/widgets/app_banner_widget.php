@@ -102,7 +102,7 @@ class App_Banner_Widget extends WP_Widget {
 		            image: '<?= $instance['image']; ?>',
 		            form_title: '<?= $instance['form_title']; ?>',
 		            more_url: '<?= $instance['more_url']; ?>',
-	             	mod_api_url: '<?= $this->home_url; ?>/wp-json/crowfunding/forms/get_companies'
+	             	mod_api_url: '<?= $this->home_url; ?>/wp-json/crowfunding/forms/get_business'
 	          	},
 	          	mounted () {
 			    	axios

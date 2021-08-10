@@ -108,7 +108,7 @@ class Lending_Route extends WP_REST_Controller  {
 
         if( $pagination ){
             $AppDb->pageLimit = $limit;
-            $items = $AppDb->ObjectBuilder()->paginate($wpdb->prefix."posts as p", $page);
+            $items = $AppDb->ObjectBuilder()->paginate($wpdb->prefix."posts as p", $page,$cols);
             $totalPages = $AppDb->totalPages;
         }else{
             $items = $AppDb->ObjectBuilder()->get ($wpdb->prefix."posts as p", $limit, $cols);

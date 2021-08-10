@@ -31,12 +31,12 @@ $cr_page  = ( isset($_GET['mp']) ) ? $_GET['mp'] : 1;
         <div v-if="items" class="sc-review-list">
             <div v-for="item in items" class="el__item">
                 <div class="el__thumb dnfix__thumb -contain d-none d-sm-block">
-                    <img src="images/male.png" alt="">
+                    <img v-bind:src="item.review_image" alt="">
                 </div>
                 <div class="el__meta">
                     <div class="el__meta__mb">
                         <div class="el__thumb dnfix__thumb -contain d-flex d-sm-none">
-                            <img src="images/male.png" alt="">
+                            <img v-bind:src="item.review_image" alt="">
                         </div>
                         <div class="d-block d-sm-none">
                             <h3 class="el__title">クラウドビルズ</h3>
@@ -52,11 +52,13 @@ $cr_page  = ( isset($_GET['mp']) ) ? $_GET['mp'] : 1;
                                 </div>
                                 <span class="count d-none d-sm-block">5</span>
                             </div>
-                            <div class="el__date ms-auto">2020/00/00</div>
+                            <div class="el__date ms-auto">{{ item.comment_date }}</div>
                         </div>
                         <div class="el__sub d-none d-sm-block">20代 / 男性 / ファンド名（株式会社フィンスター）</div>
                     </div>
-                    <div class="el__comment text__truncate -n3">テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</div>
+                    <div class="el__comment text__truncate -n3">
+                        {{ item.comment_content }}
+                    </div>
                 </div>
             </div>
         </div>
