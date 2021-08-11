@@ -19,11 +19,11 @@ devcode15
 	fund - list OK
 	fund - detail -> kiểm tra 償還方法
 	
-	lending - list CHƯA reviews
-	lending - detail CHƯA reviews
+	lending - list CHƯA reviews -> OK
+	lending - detail CHƯA reviews -> OK
 	
-	reviews - list CHƯA xong
-	reviews - add CHƯA xong
+	reviews - list CHƯA xong -> OK
+	reviews - add CHƯA xong -> OK chú ý giao diện
 	
 	news - investment OK
 	news - news OK

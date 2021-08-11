@@ -94,6 +94,10 @@ class Review_Route extends WP_REST_Controller  {
         $cols = ['comment_ID','comment_author','comment_date','comment_content'];
 
         $AppDb->where ("comment_approved",1);
+
+        if($post_id){
+            $AppDb->where ("comment_post_ID",$post_id);
+        }
         
         $totalPages = 1;
         if( $pagination ){
@@ -104,29 +108,41 @@ class Review_Route extends WP_REST_Controller  {
             $items = $AppDb->ObjectBuilder()->get ($wpdb->prefix."comments", $limit, $cols);
         }
 
-        
+        $values = [];
+        if( count($items)  > 0 ){
+            foreach ($items as $item) {
+                
+                $item->comment_date     = date('Y/m/d',strtotime($item->comment_date));
 
-        foreach ($items as $item) {
-            $item->review_image     = $this->home_url.'/wp-content/themes/crowfunding/images/male.png';
-            $item->comment_date     = date('Y/m/d',strtotime($item->comment_date));
-           
-
-            if( count($this->meta_fields) ){
-                $AppDb->where ("comment_id",$item->comment_ID);
-                $AppDb->where ("meta_key",$this->meta_fields,"IN");
-                $metas = $AppDb->ObjectBuilder()->get ($wpdb->prefix."commentmeta", null, ['meta_key','meta_value']);
-                foreach ($metas as $meta) {
-                    $item->{$meta->meta_key} = $meta->meta_value;
+                if( count($this->meta_fields) ){
+                    $AppDb->where ("comment_id",$item->comment_ID);
+                    $AppDb->where ("meta_key",$this->meta_fields,"IN");
+                    $metas = $AppDb->ObjectBuilder()->get ($wpdb->prefix."commentmeta", null, ['meta_key','meta_value']);
+                    foreach ($metas as $meta) {
+                        $item->{$meta->meta_key} = $meta->meta_value;
+                    }
                 }
-            }
+                $item->review_image     = $this->home_url.'/wp-content/themes/crowfunding/images/'.$item->item_gender.'.png';
+                $item->item_type        = 'クラウドビルズ';
+                $item->item_rating_value = $item->item_rating;
+                $item->item_rating      = ( $item->item_rating / 5 ) * 100 .'%';
+                $item->item_more_link   = '#';
+                $item->item_gender = ($item->item_gender == 'male') ? '男性' : '女性';
 
-            $item->item_type        = 'クラウドビルズ';
-            $item->item_rating      = ( $item->item_rating / 5 ) * 100 .'%';
-            $item->item_more_link   = '#';
+                $values[] = $item->item_rating_value;
+            }
+            $item_total = count($items);
+            $item_average = ( array_sum($values)/count($items) / 5 ) * 100 .'%';
+        }else{
+            $items = null;
+            $item_total = 0;
+            $item_average = 0;
         }
 
         $return['items']        = $items;
         $return['totalPages']   = $totalPages;
+        $return['item_total']   = $item_total;
+        $return['item_average'] = $item_average;
 
         return rest_ensure_response( $return );
     }
@@ -143,11 +159,13 @@ class Review_Route extends WP_REST_Controller  {
         $service_name   = $request['service_name'];
         $content        = $request['content'];
 
+        $post_id = $this->get_post_id( $business_name,$service_name );
+
         $data = [
             'comment_approved'  => 1,
             'comment_content'   => $content,
             'comment_date'      => date('Y-m-d H:i:s'),
-            'comment_post_ID'   => 0,
+            'comment_post_ID'   => $post_id,
             'user_id'           => 0,
             'comment_meta'      => [
                 'item_gender'   => $item_gender,
@@ -161,6 +179,32 @@ class Review_Route extends WP_REST_Controller  {
 
         $return['status'] = 'OK';
         return rest_ensure_response( $return );
+    }
+
+    private function get_post_id($business_name,$service_name){
+        global $AppDb,$wpdb;
+
+        $AppDb->where ("meta_value","","!=");
+        $AppDb->where ("meta_key","company_service_title");
+        $post_ids = $AppDb->ObjectBuilder()->get ($wpdb->prefix."postmeta", null, ['post_id']);
+
+        $in_ids = [];
+        if( count($post_ids) ){
+            foreach ($post_ids as $post_id) {
+               $in_ids[] = $post_id->post_id;
+            }
+        }else{
+            return 0;
+        }
+
+        $AppDb->where ("meta_value","","!=");
+        $AppDb->where ("post_id",$in_ids,"IN");
+        $AppDb->where ("meta_key","company_business_name");
+
+        $post_id = $AppDb->ObjectBuilder()->getOne ($wpdb->prefix."postmeta",['post_id']);
+        if($post_id) return $post_id->post_id;
+        return 0;
+
     }
 
     /* photos */

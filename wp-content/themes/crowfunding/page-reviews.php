@@ -14,6 +14,7 @@ $cat_id  = ($cat_id) ? $cat_id : 0;
 $limit   = ($limit) ? $limit : 10;
 $custom_header_title  = get_post_meta($item_id,'custom_header_title',true);
 $custom_header_title = ($custom_header_title) ? $custom_header_title : get_the_title();
+$post_id  = ( isset($_GET['post_id']) ) ? $_GET['post_id'] : 0;
 $cr_page  = ( isset($_GET['mp']) ) ? $_GET['mp'] : 1;
 ?>
 <div class="dn__breadcrumb" typeof="BreadcrumbList" vocab="https://schema.org/">
@@ -40,21 +41,20 @@ $cr_page  = ( isset($_GET['mp']) ) ? $_GET['mp'] : 1;
                         </div>
                         <div class="d-block d-sm-none">
                             <h3 class="el__title">クラウドビルズ</h3>
-                            <div class="el__sub mb-0">20代 / 男性 / ファンド名</div>
+                            <div class="el__sub mb-0">{{ item.item_years }}代 / {{ item.item_gender }} / {{ item.business_name }}</div>
                         </div>
 
                         <div class="d-block d-sm-flex align-items-center ms-auto">
                             <h3 class="el__title d-none d-sm-block">クラウドビルズ</h3>
                             <div class="item__rating ">
                                 <div class="star-rating -small" role="img" aria-label="Rated 4.00 out of 5">
-                                    <span style="width:100%;">
-                                    </span>
+                                    <span v-bind:style="{ width:item.item_rating }"></span>
                                 </div>
-                                <span class="count d-none d-sm-block">5</span>
+                                <span class="count d-none d-sm-block">{{ item.item_rating_value }}</span>
                             </div>
                             <div class="el__date ms-auto">{{ item.comment_date }}</div>
                         </div>
-                        <div class="el__sub d-none d-sm-block">20代 / 男性 / ファンド名（株式会社フィンスター）</div>
+                        <div class="el__sub d-none d-sm-block">{{ item.item_years }}代 / {{ item.item_gender }} / {{ item.business_name }}</div>
                     </div>
                     <div class="el__comment text__truncate -n3">
                         {{ item.comment_content }}
@@ -81,6 +81,7 @@ $cr_page  = ( isset($_GET['mp']) ) ? $_GET['mp'] : 1;
 </div>
 <script type="text/javascript">  
  var mod_title  = '<?= $custom_header_title; ?>';   
+ var post_id  = '<?= $post_id; ?>';   
  var limit      = '<?= $limit; ?>'; 
  var social_news_app = new Vue({
    el: '#social_reviews_app',
@@ -89,7 +90,7 @@ $cr_page  = ( isset($_GET['mp']) ) ? $_GET['mp'] : 1;
      totalPages: null,
      page: '<?= $cr_page; ?>',
      mod_title: mod_title,
-     setting: '?pagination=1&limit='+limit
+     setting: '?pagination=1&post_id='+post_id+'&limit='+limit
    },
    methods : {
         loadPage(pageNumber,e){

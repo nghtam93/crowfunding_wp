@@ -58,10 +58,9 @@ $cr_page  = ( isset($_GET['mp']) ) ? $_GET['mp'] : 1;
                                 <label class="-text-fix">クチコミ・レビュー</label>
                                 <div class="d-lg-flex align-items-center">
                                     <div class="star-rating -small" role="img" aria-label="Rated 4.00 out of 5">
-                                        <span style="width:100%;">
-                                        </span>
+                                        <span v-bind:style="{ width:item.average_rating }"></span>
                                     </div>
-                                    <p>4.7 <span>(48件)</span></p>
+                                    <p>{{ item.average_value }} <span>({{ item.total_reviews }}件)</span></p>
                                 </div>
                             </li>
                         </ul>
@@ -93,7 +92,7 @@ $cr_page  = ( isset($_GET['mp']) ) ? $_GET['mp'] : 1;
         totalPages: null,
         page: '<?= $cr_page; ?>',
         mod_title: mod_title,
-        setting: '?pagination=1&limit='+limit
+        setting: '?pagination=1&total_reviews=1&limit='+limit
       },
           methods : {
             loadPage(pageNumber,e){

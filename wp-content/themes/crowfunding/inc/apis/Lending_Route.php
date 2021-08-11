@@ -28,6 +28,10 @@ class Lending_Route extends WP_REST_Controller  {
             'features',
             'table_of_contents',
         ]);
+
+        $this->reviews_meta_fields = [
+            'item_rating',
+        ];
     }
 
     /**
@@ -99,6 +103,7 @@ class Lending_Route extends WP_REST_Controller  {
         $cat_id     = ( isset($request['cat_id']) ) ? $request['cat_id'] : 0;
         $page       = ( isset($request['page']) ) ? $request['page'] : 1;
         $limit      = ( isset($request['limit']) ) ? $request['limit'] : 10;
+        $get_total_review      = ( isset($request['total_reviews']) ) ? $request['total_reviews'] : false;
 
         $cols = ['ID','post_title','post_name','post_excerpt'];
 
@@ -125,8 +130,6 @@ class Lending_Route extends WP_REST_Controller  {
                $item->features_html .= '<li>'.$feature->name.'</li>';
             }
 
-            
-
             $AppDb->where ("post_id",$item->ID);
             $AppDb->where ("meta_key",$this->meta_fields,"IN");
             $metas = $AppDb->ObjectBuilder()->get ($wpdb->prefix."postmeta", null, ['meta_key','meta_value']);
@@ -137,10 +140,40 @@ class Lending_Route extends WP_REST_Controller  {
                 }
                 $item->{$meta->meta_key} = $meta->meta_value;
             }
+
+            if($get_total_review){
+                $AppDb->where ("comment_post_ID",$item->ID);
+                $reviews = $AppDb->ObjectBuilder()->get ($wpdb->prefix."comments", null, ['comment_post_ID','comment_ID']);
+                $item->total_reviews    = count($reviews);
+                $item->average_rating   = '0%';
+                $item->average_value    = 0;
+                if( count($reviews) ){
+                    $comment_values = [];
+                    foreach ($reviews as $review) {
+                        $comment_post_ID    = $review->comment_post_ID;
+                        $comment_ID         = $review->comment_ID;
+                        $AppDb->where ("comment_id",$comment_ID);
+                        $AppDb->where ("meta_key",$this->reviews_meta_fields,"IN");
+                        $comment_metas = $AppDb->ObjectBuilder()->get ($wpdb->prefix."commentmeta", null, ['meta_key','meta_value']);
+
+                        
+                        foreach ($comment_metas as $key => $comment_meta) {
+                            if( $comment_meta->meta_key == 'item_rating' ){
+                                $comment_values[] = $comment_meta->meta_value;
+                            }
+                        }
+                    }
+
+                    $item->average_rating = ( array_sum($comment_values)/count($reviews) / 5 ) * 100 .'%';
+                    $item->average_value  = array_sum($comment_values)/count($reviews);
+                }
+
+            }
         }
 
         $return['items']        = $items;
         $return['totalPages']   = $totalPages;
+
 
         return rest_ensure_response( $return );
     }

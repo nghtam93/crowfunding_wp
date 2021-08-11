@@ -1,5 +1,6 @@
 <?php get_header();
 $siteurl = get_option('siteurl');
+$post_id = get_the_ID();
 ?>
 <div class="dn__breadcrumb" typeof="BreadcrumbList" vocab="https://schema.org/">
     <div class="container-fluid">
@@ -115,30 +116,29 @@ $siteurl = get_option('siteurl');
 
                     <div class="item__rating ms-sm-3">
                         <div class="star-rating" role="img" aria-label="Rated 4.00 out of 5">
-                            <span style="width:80%;">
-                            </span>
+                            <span v-bind:style="{ width:reviews_average }"></span>
                         </div>
                     </div>
 
                 </div>
                 <div class="el__col col-md-6">
                     <span class="el__label">口コミ件数</span>
-                    <span class="color-secondary">{{ item.comment_count }}件</span>
+                    <span class="color-secondary">{{ reviews_total }}件</span>
                 </div>
             </div>
 
-            <div class="sc__content wow animate__animated animate__fadeInUp">
-                <div class="sc-customer__slider slider flickity" data-flickity='{ "autoPlay": false ,"cellAlign": "left", "contain": true, "wrapAround": true, "groupCells": true, "pageDots": false,"prevNextButtons": true }'>
+            <div  class="sc__content wow animate__animated animate__fadeInUp">
+                <div v-if="reviews" class="sc-customer__slider slider flickity" data-flickity='{ "autoPlay": false ,"cellAlign": "left", "contain": true, "wrapAround": true, "groupCells": true, "pageDots": false,"prevNextButtons": true }'>
                
-                      <div class="col-12 col-md-6 el__wrap">
+                      <div  v-for="item in reviews" class="col-12 col-md-6 el__wrap">
                         <div class="el__item">
                             <div class="el__thumb dnfix__thumb d-none d-sm-block">
-                                <img src="images/sc-customer-1.png" alt="">
+                                <img v-bind:src="item.review_image" alt="">
                             </div>
                             <div class="el__meta">
                                 <div class="el__meta__mb">
                                     <div class="el__thumb dnfix__thumb d-sm-none">
-                                        <img src="images/sc-customer-1.png" alt="">
+                                        <img v-bind:src="item.review_image" alt="">
                                     </div>
                                     <div class="d-sm-flex align-items-center">
                                         <h3 class="el__title">クラウドビルズ</h3>
@@ -151,97 +151,66 @@ $siteurl = get_option('siteurl');
                                     </div>
                                 </div>
 
-                                <div class="el__date">20代 女性│2020.02.15</div>
-                                <div class="el__comment text__truncate -n3">サンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキスト…</div>
+                                <div class="el__date">{{ item.item_years }}代 / {{ item.item_gender }}│{{ item.comment_date }}</div>
+                                <div class="el__comment text__truncate -n3">{{ item.comment_content }}…</div>
                                 <div class="text-end">> 詳しくはこちら</div>
                             </div>
                         </div>
                       </div>
-                      <div class="col-12 col-md-6 el__wrap">
-                        <div class="el__item">
-                            <div class="el__thumb dnfix__thumb">
-                                <img src="images/sc-customer-2.png" alt="">
-                            </div>
-                            <div class="el__meta">
-                                <div class="el__meta__mb">
-                                    <div class="el__thumb dnfix__thumb d-sm-none">
-                                        <img src="images/sc-customer-2.png" alt="">
-                                    </div>
-                                    <div class="d-sm-flex align-items-center">
-                                        <h3 class="el__title">クラウドビルズ</h3>
-                                        <div class="item__rating ms-sm-3">
-                                            <div class="star-rating" role="img" aria-label="Rated 4.00 out of 5">
-                                                <span style="width:80%;">
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="el__date">20代 女性│2020.02.15</div>
-                                <div class="el__comment text__truncate -n3">サンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキスト…</div>
-                                <div class="text-end">> 詳しくはこちら</div>
-                            </div>
-                        </div>
-                      </div>
-                      <div class="col-12 col-md-6 el__wrap">
-                        <div class="el__item">
-                            <div class="el__thumb dnfix__thumb">
-                                <img src="images/sc-customer-2.png" alt="">
-                            </div>
-                            <div class="el__meta">
-                                <div class="el__meta__mb">
-                                    <div class="el__thumb dnfix__thumb d-sm-none">
-                                        <img src="images/sc-customer-1.png" alt="">
-                                    </div>
-                                    <div class="d-sm-flex align-items-center">
-                                        <h3 class="el__title">クラウドビルズ</h3>
-                                        <div class="item__rating ms-sm-3">
-                                            <div class="star-rating" role="img" aria-label="Rated 4.00 out of 5">
-                                                <span style="width:80%;">
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="el__date">20代 女性│2020.02.15</div>
-                                <div class="el__comment text__truncate -n3">サンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキスト…</div>
-                                <div class="text-end">> 詳しくはこちら</div>
-                            </div>
-                        </div>
-                      </div>
+      
                  
                 </div>
             </div>
             <div class="text-end">
-                <a href="" class="sc__readmore--text">クチコミ一覧を見る<span class="icon-long-arrow-right"></span></a>
+                <a href="<?= get_the_permalink(12);?>?post_id=<?= $post_id;?>" class="sc__readmore--text">クチコミ一覧を見る<span class="icon-long-arrow-right"></span></a>
             </div>
         </div>
     </section>
 </div>
 <script type="text/javascript">
-let item_id = '<?= get_the_ID();?>';
-var fund_detail_app = new Vue({
-    el: '#lending_detail_app',
-    data: {
-        item: null,
-    },
-    mounted () {
-        axios
-        .get('<?= $siteurl; ?>/wp-json/crowfunding/lendings/'+item_id)
-        .then( response => (this.item = response.data) )
-        .then( function(response){
+let item_id = '<?= $post_id;?>';
+//jQuery( document ).ready( function(){
 
-            // let main_flickity = jQuery.parseJSON( jQuery('.carousel-main').attr('data-flickity') );
-            // let nav_flickity = jQuery.parseJSON( jQuery('.carousel-nav').attr('data-flickity') );
 
-            // jQuery('.carousel-main').flickity( main_flickity );
-            // jQuery('.carousel-nav').flickity( nav_flickity );
-        
-        })
-        .catch( function(response){
-            console.log( 'catch' );
-        })
-    }
-});
+    var fund_detail_app = new Vue({
+        el: '#lending_detail_app',
+        data: {
+            item: null,
+            get_reviews: false,
+            reviews: null,
+            reviews_total: 0,
+            reviews_average: '0%',
+            mod_api_url: '<?= $siteurl; ?>/wp-json/crowfunding/reviews'
+        },
+
+        mounted () {
+            
+
+            axios
+            .get('<?= $siteurl; ?>/wp-json/crowfunding/lendings/'+item_id)
+            .then( response => {
+                this.item = response.data;
+
+                axios
+                .get('<?= $siteurl; ?>/wp-json/crowfunding/reviews?post_id='+item_id)
+                .then( response => {
+                    this.reviews = response.data.items;
+                    this.reviews_total = response.data.item_total;
+                    this.reviews_average = response.data.item_average;
+                }).then( function(response){
+                    let obj = jQuery('#lending_detail_app').find('.flickity');
+                    if( obj.length > 0 ){
+                        let data_flickity = JSON.parse( obj.attr('data-flickity') );
+                        obj.flickity( data_flickity );
+                    }
+                    
+                });
+
+            });
+
+        },
+    });
+//});
+
 </script>
 <?php get_footer();?>

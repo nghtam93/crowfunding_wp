@@ -48,8 +48,8 @@ class Form_Route extends WP_REST_Controller  {
 
     public function get_services( $request ) {
         global $AppDb,$wpdb;
-        //$AppDb->where ("meta_key","company_service_title");
-        $AppDb->where ("meta_key","company_business_name");
+        $AppDb->where ("meta_key","company_service_title");
+        //$AppDb->where ("meta_key","company_business_name");
         $AppDb->where ("meta_value","","!=");
         $AppDb->groupBy ("meta_value");
         $results  = $AppDb->ObjectBuilder()->get ($wpdb->prefix."postmeta", null, ['meta_value']);
