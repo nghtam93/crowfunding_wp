@@ -18,7 +18,7 @@ $siteurl = get_option('siteurl');
         <div class="single-fund__main">
             <div class="row">
                 <div class="col-md-12 col-lg-7">
-                    <div class="item-gallery">
+                    <div class="product-gallery">
                         <div class="carousel carousel-main"
                         data-flickity='{
                                 "cellAlign": "center",
@@ -34,7 +34,7 @@ $siteurl = get_option('siteurl');
                         }'>
                             <div v-for="gallery in item.gallery" class="carousel-cell">
                                 <div class="el__thumb dnfix__thumb">
-                                    <a v-href:src="gallery" data-fancybox="group">
+                                    <a v-bind:src="gallery" data-fancybox="group">
                                         <img v-bind:src="gallery" />
                                     </a>
                                 </div>

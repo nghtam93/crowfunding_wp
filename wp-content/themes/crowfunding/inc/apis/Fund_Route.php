@@ -107,6 +107,8 @@ class Fund_Route extends WP_REST_Controller  {
         $cat_id     = ( isset($request['cat_id']) ) ? $request['cat_id'] : 0;
         $page       = ( isset($request['page']) ) ? $request['page'] : 1;
         $limit      = ( isset($request['limit']) ) ? $request['limit'] : 10;
+        $have_guarante      = ( isset($request['have_guarante']) ) ? $request['have_guarante'] : 0;
+        $have_no_guarante   = ( isset($request['have_no_guarante']) ) ? $request['have_no_guarante'] : 0;
 
 
         $cols = ['ID','post_title','post_name','post_excerpt','comment_count'];
@@ -114,6 +116,21 @@ class Fund_Route extends WP_REST_Controller  {
         $AppDb->where ("post_type",'fund');
         $AppDb->where ("post_status",'publish');
         $totalPages = 1;
+
+        if($have_guarante && $have_no_guarante){
+            $AppDb->join($wpdb->prefix."postmeta pm", "pm.post_id=p.ID");
+            $AppDb->where ("pm.meta_key","fund_values_guarantee");
+            $AppDb->where ("pm.meta_value",[0,1],"IN");
+            //$db->joinWhere("posts as p", "pm.meta_key", 5);
+        }elseif($have_guarante){
+            $AppDb->join($wpdb->prefix."postmeta pm", "pm.post_id=p.ID");
+            $AppDb->where ("pm.meta_key","fund_values_guarantee");
+            $AppDb->where ("pm.meta_value",[1],"IN");
+        }elseif($have_no_guarante){
+            $AppDb->join("postmeta pm", "pm.post_id=p.ID");
+            $AppDb->where ("pm.meta_key","fund_values_guarantee");
+            $AppDb->where ("pm.meta_value",[0],"IN");
+        }
 
         if( $pagination ){
             $AppDb->pageLimit = $limit;

@@ -26,7 +26,7 @@ class App_Banner_Widget extends WP_Widget {
 	            <div class="row">
 	                <div class="col-md-6 animate__animated animate__backInLeft">
 	                    <header class="el__header">
-	                        <h2 class="el__header__title">{{ mod_title }}</h2>
+	                        <h2 class="el__header__title" v-html="mod_title"></h2>
 	                        <p class="el__header__sub">{{ mod_sub_title }}</p>
 	                    </header>
 	                    <div class="el__img">
@@ -97,7 +97,7 @@ class App_Banner_Widget extends WP_Widget {
           		el: '#<?= $args['widget_id']; ?>',
           		data: {
 		            companies: null,
-		            mod_title: '<?= $instance['title']; ?>',
+		            mod_title: '<?= str_replace('__br__','<br>', $instance['title']); ?>',
 		            mod_sub_title: '<?= $instance['sub_title']; ?>',
 		            image: '<?= $instance['image']; ?>',
 		            form_title: '<?= $instance['form_title']; ?>',

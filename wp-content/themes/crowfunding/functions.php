@@ -189,7 +189,7 @@ function crowfunding_scripts_loader() {
 
 	$header_js = [
 		'jquery' 	=> 'assets/js/jquery.min.3.5.1.js',
-		'flickity' 	=> 'assets/libs/flickity/flickity.pkgd.min.js',
+		
 		'ckeditor' 	=> 'assets/libs/ckeditor5-build-classic/ckeditor.js'
 	];
 
@@ -198,6 +198,7 @@ function crowfunding_scripts_loader() {
 		'bootstrap' 	=> 'assets/libs/bootstrap/js/bootstrap.bundle.min.js',
 		'rangeSlider' 	=> 'assets/libs/ion-rangeSlider/js/ion.rangeSlider.min.js',
 		'rateit' 		=> 'assets/libs/rateit.js/jquery.rateit.js',
+		'flickity' 	=> 'assets/libs/flickity/flickity.pkgd.min.js',
 		'wow' 			=> 'assets/js/wow.min.js',
 		'main' 			=> 'assets/js/main.js'
 	];

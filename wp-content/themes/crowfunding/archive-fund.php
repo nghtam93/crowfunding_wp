@@ -18,8 +18,18 @@ $cr_page  = ( isset($_GET['mp']) ) ? $_GET['mp'] : 1;
 $business_name  = ( isset($_GET['business_name']) ) ? $_GET['business_name'] : '';
 $yield          = ( isset($_GET['yield']) ) ? $_GET['yield'] : '1;15';
 $period         = ( isset($_GET['period']) ) ? $_GET['period'] : '1;36';
-$guarantee      = ( isset($_GET['guarantee']) ) ? implode(',', $_GET['guarantee']) : '';
+$guarantees     = ( isset($_GET['guarantee']) ) ? $_GET['guarantee'] : [];
+$yields         = explode(';',$yield);
 
+$have_guarante = $have_no_guarante = 0;
+foreach ($guarantees as $key => $value) {
+    if( $value == 0 ){
+        $have_guarante = 1;
+    }
+    if( $value == 1 ){
+        $have_no_guarante = 1;
+    }
+}
 ?>
 <div class="dn__breadcrumb" typeof="BreadcrumbList" vocab="https://schema.org/">
     <div class="container-fluid">
@@ -55,6 +65,7 @@ $guarantee      = ( isset($_GET['guarantee']) ) ? implode(',', $_GET['guarantee'
                         <div class="col-sm-9">
                         <input type="text" class="js-range-slider" 
                         name="yield" 
+                        value="<?= $yield; ?>" 
                         data-min="1"
                         data-max="15"
                         data-postfix="%" >
@@ -64,7 +75,8 @@ $guarantee      = ( isset($_GET['guarantee']) ) ? implode(',', $_GET['guarantee'
                         <label for="" class="col-sm-3 col-form-label">運用期間</label>
                         <div class="col-sm-9">
                         <input type="text" class="js-range-slider" 
-                        name="period" 
+                        name="period"
+                        value="<?= $period; ?>" 
                         data-min="1"
                         data-max="36"
                         data-postfix="ヶ月" >
@@ -75,11 +87,15 @@ $guarantee      = ( isset($_GET['guarantee']) ) ? implode(',', $_GET['guarantee'
                         <div class="col-8 col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="g_ja" value="0"
-                                name="guarantee[]">
+                                name="guarantee[]"
+                                <?= ($have_guarante) ? 'checked' : '';?>
+                                >
                                 <label class="form-check-label" for="g_ja">保証あり</label>
                               </div>
                               <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="g_nee" value="1" name="guarantee[]">
+                                <input class="form-check-input" type="checkbox" id="g_nee" value="1" name="guarantee[]"
+                                <?= ($have_no_guarante) ? 'checked' : '';?>
+                                >
                                 <label class="form-check-label" for="g_nee">保証なし</label>
                               </div>
                         </div>
@@ -147,9 +163,11 @@ $guarantee      = ( isset($_GET['guarantee']) ) ? implode(',', $_GET['guarantee'
     </div>
 </div>
 <script type="text/javascript">
-     var mod_title  = '<?= $custom_header_title; ?>';   
+    var mod_title  = '<?= $custom_header_title; ?>';   
     var limit      = '<?= $limit; ?>'; 
- var social_fund_app = new Vue({
+    var have_guarante       = '<?= $have_guarante; ?>'; 
+    var have_no_guarante    = '<?= $have_no_guarante; ?>'; 
+    var social_fund_app = new Vue({
    el: '#social_fund_app',
    data: {
         companies: null,
@@ -158,7 +176,7 @@ $guarantee      = ( isset($_GET['guarantee']) ) ? implode(',', $_GET['guarantee'
         totalPages: null,
         page: '<?= $cr_page; ?>',
         mod_title: mod_title,
-        setting: '?pagination=1&limit='+limit
+        setting: '?pagination=1&limit='+limit+'&have_guarante='+have_guarante+'&have_no_guarante='+have_no_guarante
       },
       methods : {
         loadPage(pageNumber,e){
@@ -187,7 +205,7 @@ $guarantee      = ( isset($_GET['guarantee']) ) ? implode(',', $_GET['guarantee'
     });
 
     axios
-    .get('<?= $siteurl; ?>/wp-json/crowfunding/forms/get_companies')
+    .get('<?= $siteurl; ?>/wp-json/crowfunding/forms/get_business')
     .then( response => {
         this.companies = response.data.items;
     });

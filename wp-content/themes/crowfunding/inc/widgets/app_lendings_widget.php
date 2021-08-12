@@ -48,7 +48,7 @@ class App_Lendings_Widget extends WP_Widget {
 	                    </div>
 	                </div>
 	                <div class="text-end">
-	                    <a href="" class="sc__readmore--text">ソーシャルレンディング事業者一覧を見る<span class="icon-long-arrow-right"></span></a>
+	                    <a v-bind:href="more_url" class="sc__readmore--text">ソーシャルレンディング事業者一覧を見る<span class="icon-long-arrow-right"></span></a>
 	                </div>
 	            </div>
 	        </div>
@@ -60,7 +60,8 @@ class App_Lendings_Widget extends WP_Widget {
 	            items: null,
 	            mod_title: '<?= $instance['title']; ?>',
 	            mod_sub_title: '<?= $instance['sub_title']; ?>',
-	             mod_limit: '<?= $instance['limit']; ?>',
+	            mod_limit: '<?= $instance['limit']; ?>',
+	            more_url: '<?= $instance['more_url']; ?>',
 	            mod_api_url: '<?= $this->home_url; ?>/wp-json/crowfunding/lendings'
 	          },
 	          mounted () {
